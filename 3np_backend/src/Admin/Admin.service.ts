@@ -2,10 +2,58 @@ import { Injectable } from "@nestjs/common";
 import { AdminDTO, loginDTO } from "./Admin.dto";
 import { RegistrationDTO } from "src/Police/police.dto";
 import { VicDTO } from "src/Victim/victim.dto";
-
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { AdminEntity } from "./Admin.entity";
+import { VictimEntity } from "src/Victim/victim.entity";
 
 @Injectable()
 export class AdminService{
+  constructor(
+    @InjectRepository(AdminEntity)
+    private adminRepo: Repository<AdminEntity>,
+    @InjectRepository(VictimEntity)
+    private VictimRepo: Repository<VictimEntity>
+) { }
+// async updateVictimById(id: number, data: VicDTO): Promise<VictimEntity> {
+//   await this.adminRepo.update(id, data);
+//   return this.adminRepo.findOneBy({ id });
+// }
+
+async getVictimById(id: number): Promise<VictimEntity> {
+  return this.VictimRepo.findOneBy({ id });
+}
+async getAdminbyid(id:number):Promise<AdminEntity[]>{
+  return this.adminRepo.find({
+    where:{id:id},
+    relations:{victims:true}
+  });
+}
+async addVictim(id:number,victim:VicDTO): Promise<VictimEntity> {
+  // return this.VictimRepo.findOneBy({id});
+  return this.VictimRepo.save(victim);
+}
+
+async updateVictimById(id: number, data: VicDTO): Promise<VictimEntity> {
+  await this.VictimRepo.update(id, data);
+  return this.VictimRepo.findOneBy({ id:id });
+  }
+  
+   DeleteVictimBYID(id:number): any{
+    return this.VictimRepo.delete(id);
+    return{
+      message:"Deleted Succesfully"
+    }
+  }
+
+async addAdminid(data: AdminDTO): Promise<AdminEntity> {
+  return this.adminRepo.save(data);
+}
+
+  //  async addadminbyid(id:number, data:AdminDTO):Promise<AdminEntity[]>{
+  //   return this.adminRepo.save(id,data);
+  //  }
+
     getAdminProfile(mydata:AdminDTO): object{
         return mydata;
     }
@@ -76,7 +124,4 @@ export class AdminService{
     //     };
       
     // }
-  
- 
- 
   
