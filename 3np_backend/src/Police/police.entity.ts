@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { AdminEntity } from "src/Admin/Admin.entity";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 
 @Entity("Police")
 export class PoliceEntity{
@@ -20,4 +21,8 @@ export class PoliceEntity{
 
     @Column()
     Profile_image:string;
+
+    @OneToOne(() => AdminEntity, admin => admin.police)
+    @JoinColumn({name:"AdminId"})
+    admin: "AdminEntity";
 }

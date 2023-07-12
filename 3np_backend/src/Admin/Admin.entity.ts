@@ -1,7 +1,9 @@
 
 
 import { ManagerEntity } from "src/Manager/manager.entity";
-import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PoliceEntity } from "src/Police/police.entity";
+import { VictimEntity } from "src/Victim/victim.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity("Admin")
@@ -21,12 +23,16 @@ export class AdminEntity{
 
     @Column()
     password:string;
+ 
+    @OneToOne(() => Adminprofile, adminProfile => adminProfile.admin)
+  adminProfile: "Adminprofile";
+    @OneToOne(() => PoliceEntity, police => police.admin)
+  police: "PoliceEntity";
+  @OneToOne(() => VictimEntity, victim => victim.admin)
+  victim: "VictimEntity";
 
-    // @OneToOne(()=>Adminprofile,profile =>profile.adminprof)
-    // Admin:Adminprofile;
-
-    // @OneToMany(()=>ManagerEntity,manager =>manager.admin)
-    // managers:ManagerEntity[];
+  @OneToMany(()=>ManagerEntity,manager=>manager.admin)
+  managers:ManagerEntity[];
 
     
     
@@ -49,8 +55,9 @@ export class Adminprofile{
     @Column()
     Address:string;
 
-    // @OneToOne(()=> AdminEntity,admin => admin.Admin)
-    // adminprof:AdminEntity;
+    @OneToOne(() => AdminEntity, admin => admin.adminProfile)
+    @JoinColumn({name:"AdminId"})
+    admin: "AdminEntity";
 
 
 

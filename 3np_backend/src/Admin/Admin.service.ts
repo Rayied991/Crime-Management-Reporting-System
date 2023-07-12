@@ -1,20 +1,30 @@
-// import { Injectable } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 // import { AdminDTO, loginDTO } from "./Admin.dto";
 // import { RegistrationDTO } from "src/Police/police.dto";
 // import { VicDTO } from "src/Victim/victim.dto";
-// import { InjectRepository } from "@nestjs/typeorm";
-// import { Repository } from "typeorm";
-// import { AdminEntity } from "./Admin.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
+import { AdminEntity, Adminprofile } from "./Admin.entity";
+import { VictimEntity } from "src/Victim/victim.entity";
+import { ManagerEntity } from "src/Manager/manager.entity";
+import { PoliceEntity } from "src/Police/police.entity";
 // import { VictimEntity } from "src/Victim/victim.entity";
 
-// @Injectable()
-// export class AdminService{
-//   constructor(
-//     @InjectRepository(AdminEntity)
-//     private adminRepo: Repository<AdminEntity>,
-//     @InjectRepository(VictimEntity)
-//     private VictimRepo: Repository<VictimEntity>
-// ) { }
+@Injectable()
+export class AdminService{
+  constructor(
+    @InjectRepository(AdminEntity)
+    private adminRepo: Repository<AdminEntity>,
+    @InjectRepository(Adminprofile)
+    private AdminProfileRepo: Repository<Adminprofile>,
+    @InjectRepository(VictimEntity)
+    private VictimRepo: Repository<VictimEntity>,
+    @InjectRepository(ManagerEntity)
+    private ManagerRepo: Repository<ManagerEntity>,
+    @InjectRepository(PoliceEntity)
+    private PoliceRepo: Repository<PoliceEntity>
+) { }
+  }
 // // async updateVictimById(id: number, data: VicDTO): Promise<VictimEntity> {
 // //   await this.adminRepo.update(id, data);
 // //   return this.adminRepo.findOneBy({ id });

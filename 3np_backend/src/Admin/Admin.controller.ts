@@ -1,15 +1,11 @@
-// import { Controller, Get,Put,Post, UsePipes, ValidationPipe, Param, Body, Query, Delete, UseInterceptors, UploadedFile, ParseIntPipe } from "@nestjs/common";
-// import { AdminService } from "./Admin.service";
-// import { AdminDTO, loginDTO } from "./Admin.dto";
-// import { RegistrationDTO } from "src/Police/police.dto";
-// import { FileInterceptor } from "@nestjs/platform-express";
-// import { MulterError , diskStorage} from "multer";
-// import { VicDTO } from "src/Victim/victim.dto";
-// import { VictimEntity } from "src/Victim/victim.entity";
+import { Controller } from "@nestjs/common";
+import { AdminService } from "./Admin.service";
 
-// @Controller("admin")
-// export class AdminController{
-//     constructor(private readonly adminservice:AdminService){}
+
+@Controller("admin")
+export class AdminController{
+    constructor(private readonly adminservice:AdminService){}
+}
 //     @Post("/addadminid")
 //     @UsePipes(new ValidationPipe())
 //      addadmin(@Body() data:AdminDTO):object{

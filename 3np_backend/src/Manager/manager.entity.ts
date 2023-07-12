@@ -1,5 +1,5 @@
 import { AdminEntity } from "src/Admin/Admin.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("Manager")
 export class ManagerEntity{
@@ -15,6 +15,7 @@ export class ManagerEntity{
     @Column()
     M_Password:string;
 
-    // @ManyToOne(()=> AdminEntity,admin => admin.managers)
-    // admin:AdminEntity;
+    @ManyToOne(()=> AdminEntity,admin => admin.managers)
+    @JoinColumn({name:"AdminId"})
+    admin:AdminEntity;
 }
