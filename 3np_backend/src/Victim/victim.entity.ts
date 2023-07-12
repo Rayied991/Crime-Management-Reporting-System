@@ -3,11 +3,11 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
  
-@Entity("victimReg")
-// @Entity("Admin")//no name by default created by this class name AdminEntity
+@Entity("Victim")
+
 export class VictimEntity{
     @PrimaryGeneratedColumn()
-    id:number;
+    Victimid:number;
 
     @Column({name:'fname',type: "varchar",length: 150})
     Victim_FName: string;
@@ -32,8 +32,7 @@ export class VictimEntity{
 
 
 
-    @ManyToOne(()=> AdminEntity,admin => admin.victims)
-    admin:AdminEntity;
+   
  
 
 }

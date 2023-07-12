@@ -1,13 +1,14 @@
 
-import { VictimEntity } from "src/Victim/victim.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+
+import { ManagerEntity } from "src/Manager/manager.entity";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity("Admin")
 export class AdminEntity{
 
     @PrimaryGeneratedColumn()
-    id:number;
+    AdminId:number;
 
     @Column({name:"Fullname",type:"varchar",length:150})
     name:string;
@@ -16,11 +17,43 @@ export class AdminEntity{
     email:string;
 
     @Column()
-    Location:string;
+    phone:number;
 
-    @OneToMany(()=> VictimEntity,victim => victim.admin)
-    victims:VictimEntity[];
+    @Column()
+    password:string;
+
+    // @OneToOne(()=>Adminprofile,profile =>profile.adminprof)
+    // Admin:Adminprofile;
+
+    // @OneToMany(()=>ManagerEntity,manager =>manager.admin)
+    // managers:ManagerEntity[];
+
     
+    
+}
+
+@Entity("Adminprofile")
+export class Adminprofile{
+    @PrimaryGeneratedColumn()
+    profileId:number;
+
+    @Column({name:"Fullname",type:"varchar",length:150})
+    name:string;
+
+    @Column({type:"varchar",length:150})
+    email:string;
+
+    @Column()
+    phone:number;
+
+    @Column()
+    Address:string;
+
+    // @OneToOne(()=> AdminEntity,admin => admin.Admin)
+    // adminprof:AdminEntity;
+
+
+
 }
 
 
