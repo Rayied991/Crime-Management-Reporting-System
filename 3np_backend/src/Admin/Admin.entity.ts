@@ -26,8 +26,10 @@ export class AdminEntity{
  
     @OneToOne(() => Adminprofile, adminProfile => adminProfile.admin)
   adminProfile: "Adminprofile";
+
     @OneToOne(() => PoliceEntity, police => police.admin)
   police: "PoliceEntity";
+
   @OneToOne(() => VictimEntity, victim => victim.admin)
   victim: "VictimEntity";
 
@@ -43,17 +45,10 @@ export class Adminprofile{
     @PrimaryGeneratedColumn()
     profileId:number;
 
-    @Column({name:"Fullname",type:"varchar",length:150})
-    name:string;
-
-    @Column({type:"varchar",length:150})
-    email:string;
-
     @Column()
-    phone:number;
+    Location:string;
 
-    @Column()
-    Address:string;
+    
 
     @OneToOne(() => AdminEntity, admin => admin.adminProfile)
     @JoinColumn({name:"AdminId"})

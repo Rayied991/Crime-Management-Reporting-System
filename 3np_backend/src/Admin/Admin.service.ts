@@ -1,14 +1,13 @@
-import { Injectable } from "@nestjs/common";
-// import { AdminDTO, loginDTO } from "./Admin.dto";
-// import { RegistrationDTO } from "src/Police/police.dto";
-// import { VicDTO } from "src/Victim/victim.dto";
+import { Injectable, NotFoundException } from "@nestjs/common";
+
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { AdminEntity, Adminprofile } from "./Admin.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
 import { ManagerEntity } from "src/Manager/manager.entity";
 import { PoliceEntity } from "src/Police/police.entity";
-// import { VictimEntity } from "src/Victim/victim.entity";
+import { AdminDTO } from "./Admin.dto";
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AdminService{
@@ -24,6 +23,72 @@ export class AdminService{
     @InjectRepository(PoliceEntity)
     private PoliceRepo: Repository<PoliceEntity>
 ) { }
+
+async create(data:AdminDTO):Promise<AdminEntity>{
+  //default salt generate
+  const salt=await bcrypt.genSalt();
+  //way-1
+  // const hashedPassword=await bcrypt.hash(data.password,salt);
+  // data.password=hashedPassword;
+  //way-2
+  data.password=await bcrypt.hash(data.password,salt);
+ 
+  return this.adminRepo.save(data);
+}
+async getAdminProfilebyid(id): Promise<AdminEntity[]> {
+  const adminProfiles = await this.adminRepo.find({
+    where: { AdminId: id },
+    relations: ['adminProfile'],
+  });
+
+  if (!adminProfiles || adminProfiles.length === 0) {
+    throw new NotFoundException('Admin profile not found');
+  }
+  // Dehash the password
+  adminProfiles.forEach(admin => {
+    admin.password = undefined;
+  });
+
+  return adminProfiles;
+}
+async signin(session,data) {
+
+       
+  if(session.AdminId){
+    return 0;
+  }
+  const mydata = await this.adminRepo.findOneBy({ AdminId: data.AdminId });
+  if (!mydata) {
+    return 0;
+  }
+  if(data.password== mydata.password) 
+  {
+    return 1;
+  }
+  return 0;
+}
+
+
+// async create(mydto:AdminDTO) {
+//   const adminaccount = new AdminEntity()
+
+//   const mydata = await this.adminRepo.findOneBy({ email: mydto.email });
+  
+//   if(mydata) 
+//   {
+//     return 0;
+//   }
+
+//   adminaccount.name = mydto.name;
+//   adminaccount.email = mydto.email;
+//   adminaccount.phone = mydto.phone;
+//   adminaccount.password = mydto.password;
+  
+
+  
+  
+//    return this.adminRepo.save(adminaccount);
+//     }
   }
 // // async updateVictimById(id: number, data: VicDTO): Promise<VictimEntity> {
 // //   await this.adminRepo.update(id, data);
@@ -56,9 +121,7 @@ export class AdminService{
 //     }
 //   }
 
-// async addAdminid(data: AdminDTO): Promise<AdminEntity> {
-//   return this.adminRepo.save(data);
-// }
+
 
 //   //  async addadminbyid(id:number, data:AdminDTO):Promise<AdminEntity[]>{
 //   //   return this.adminRepo.save(id,data);

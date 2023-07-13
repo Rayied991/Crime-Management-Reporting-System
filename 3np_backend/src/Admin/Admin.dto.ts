@@ -1,5 +1,6 @@
 import {IsEmail, IsString,IsNotEmpty, IsStrongPassword, Matches, Length, MinLength, MaxLength, IsUrl, IsNotEmptyObject} from 'class-validator'
 export class AdminDTO{
+    AdminId:number;
     
      // @IsString()
     // @IsNotEmpty({message:"Name Cannot be Empty"})
@@ -12,24 +13,28 @@ export class AdminDTO{
     // @IsNotEmpty({message:"Email Field Cannot be empty"})
     email:string;
 
-    // @IsNotEmpty({message:"Location cannot be empty"})
-    // @IsString({message:"Location must be a String"})
-    Location:string;
+    phone:number;
+
+    password:string;
 
     
     
 }
+export class AdminProfile{
+    profileId:number;
+    Location:string;
+}
 
-export class loginDTO{
-    @IsString({message:"Username must be String"})
-    @IsNotEmpty({message:"UserName Cannot be Empty"})
-    username: string;
+// export class loginDTO{
+//     @IsString({message:"Username must be String"})
+//     @IsNotEmpty({message:"UserName Cannot be Empty"})
+//     username: string;
 
-    @IsString()
-    @IsStrongPassword({},{message:'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character'})
-   password: string;
+//     @IsString()
+//     @IsStrongPassword({},{message:'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character'})
+//    password: string;
 
 
    
 
-}
+// }
