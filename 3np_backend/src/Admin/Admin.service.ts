@@ -8,6 +8,7 @@ import { ManagerEntity } from "src/Manager/manager.entity";
 import { PoliceEntity } from "src/Police/police.entity";
 import { AdminDTO } from "./Admin.dto";
 import * as bcrypt from 'bcrypt';
+import { ManagerDTO } from "src/Manager/Manager.dto";
 
 @Injectable()
 export class AdminService{
@@ -23,6 +24,34 @@ export class AdminService{
     @InjectRepository(PoliceEntity)
     private PoliceRepo: Repository<PoliceEntity>
 ) { }
+
+// async addmanager(id:number,manager:ManagerDTO): Promise<ManagerEntity> {
+//   return this.ManagerRepo.findOneBy({ManagerID:id});
+//   return  this.ManagerRepo.save(manager);
+// }
+async addManager(data: ManagerDTO): Promise<ManagerEntity> {
+  return this.ManagerRepo.save(data);
+}
+// //make a change password using nodemailer and send email after changing password
+// async changePassword(id:number,oldPassword:string,newPassword:string):Promise<AdminEntity>{
+//   const admin=await this.adminRepo.findOneBy({AdminId:id});
+//   if(!admin){
+//     throw new NotFoundException('Admin not found');
+//   }
+//   else{
+//     const isMatch=await bcrypt.compare(oldPassword,admin.password);
+//     if(!isMatch){
+//       throw new NotFoundException('Password not match');
+//     }
+//     else{
+//       const salt=await bcrypt.genSalt();
+//       admin.password=await bcrypt.hash(newPassword,salt);
+//       return this.adminRepo.save(admin);
+//     }
+//     }
+//     }
+  
+
 
 async create(data:AdminDTO):Promise<AdminEntity>{
   //default salt generate
@@ -51,6 +80,11 @@ async getAdminProfilebyid(id): Promise<AdminEntity[]> {
 
   return adminProfiles;
 }
+
+
+
+
+
 async signin(session,data) {
 
        
@@ -58,14 +92,16 @@ async signin(session,data) {
     return 0;
   }
   const mydata = await this.adminRepo.findOneBy({ AdminId: data.AdminId });
-  if (!mydata) {
-    return 0;
-  }
-  if(data.password== mydata.password) 
-  {
+const match =  bcrypt.compare(data.password,mydata.password);
+  if(mydata && match){
     return 1;
   }
   return 0;
+}
+
+
+  
+ 
 }
 
 
@@ -89,7 +125,7 @@ async signin(session,data) {
   
 //    return this.adminRepo.save(adminaccount);
 //     }
-  }
+  
 // // async updateVictimById(id: number, data: VicDTO): Promise<VictimEntity> {
 // //   await this.adminRepo.update(id, data);
 // //   return this.adminRepo.findOneBy({ id });

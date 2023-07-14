@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Session, UnauthorizedException, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Res, Session, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { AdminService } from "./Admin.service";
 import { AdminDTO } from "./Admin.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { MulterError, diskStorage } from "multer";
 import { AdminEntity } from "./Admin.entity";
 import * as bcrypt from 'bcrypt';
+import { SessionGuard } from "./session.guard";
+import { ManagerDTO } from "src/Manager/Manager.dto";
+import { ManagerEntity } from "src/Manager/manager.entity";
 
 @Controller("admin")
 export class AdminController{
@@ -23,6 +26,7 @@ export class AdminController{
 //   }
 // }
 //1. pass:Abc123
+//2.pass:Abcd12345
 @Post("/addadmin")
 async addadmin(@Body() data: AdminDTO): Promise<string> {
   // Default salt generation
@@ -37,29 +41,49 @@ async addadmin(@Body() data: AdminDTO): Promise<string> {
   }
 }
 
+
+@Post("/addmanager")
+async addManager(@Body() manager):Promise<ManagerEntity> {
+  return this.adminservice.addManager(manager);
+}
+
+
+// @Post("/addmanager/:id")
+// // @UseGuards(SessionGuard)
+// async addmanager(@Param('id',ParseIntPipe) id: number,@Body() data: ManagerDTO):Promise<ManagerEntity> {
+//    return await this.adminservice.addmanager(id,data);
+// }
+
+
 @Get("/adminprofile/:id")
+@UseGuards(SessionGuard)
 async getAdminProfile(@Param('id',ParseIntPipe) id: number) {
   return this.adminservice.getAdminProfilebyid(id);
 }
+
 @Post("/signin")
      async signin(@Session() session,@Body() data:AdminDTO){
        const ismatch=await this.adminservice.signin(session,data);
-        if(await ismatch==1){
+        if( ismatch==1){
             session.AdminId=data.AdminId;
             return {message: "Logged in"};
         }
         else{
-            return {mesage: "Something is wrong"};
+          throw new UnauthorizedException ({mesage: "Something is wrong"});
         }
     }
-    //logout
+
+
+   //logout
+
 @Get('/signout')
 logout(@Session() session)
 {
   
   if(session.AdminId)
   {
-    session.destroy()
+    
+    session.destroy();
     return {message:"you are logged out successfully"};
   }
   else
@@ -67,6 +91,8 @@ logout(@Session() session)
     throw new UnauthorizedException("Can't log out");
   }
 }
+
+
 
 
 }
