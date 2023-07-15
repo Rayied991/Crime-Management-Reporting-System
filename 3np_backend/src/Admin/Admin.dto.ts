@@ -1,19 +1,24 @@
-import {IsEmail, IsString,IsNotEmpty, IsStrongPassword, Matches, Length, MinLength, MaxLength, IsUrl, IsNotEmptyObject} from 'class-validator'
+import {IsEmail, IsString,IsNotEmpty, IsStrongPassword, Matches, Length, MinLength, MaxLength, IsUrl, IsNotEmptyObject, IsPhoneNumber, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface, Validate} from 'class-validator'
+import { Unique } from 'typeorm';
+
 export class AdminDTO{
     AdminId:number;
     
-     // @IsString()
-    // @IsNotEmpty({message:"Name Cannot be Empty"})
-    // @Matches(/^[A-Za-z]+$/, { message: 'Enter a Specific Name!' })
-    // @IsUrl(undefined,{message:"Invalid Url"})
+     @IsString()
+     @IsNotEmpty()
+   
     name:string;
-    // @Matches(/^localhost:3000\/admin\/addadmin$/, { message: 'Invalid URL' })
-    
-    // @IsEmail({},{message:"Invalid Email"}) 
-    // @IsNotEmpty({message:"Email Field Cannot be empty"})
+    @IsNotEmpty()
+    @IsEmail()
+   
+   
     email:string;
+    @IsNotEmpty()
+ 
 
     phone:number;
+    @IsNotEmpty()
+  @MinLength(10)
 
     password:string;
 
@@ -25,16 +30,3 @@ export class AdminProfile{
     Location:string;
 }
 
-// export class loginDTO{
-//     @IsString({message:"Username must be String"})
-//     @IsNotEmpty({message:"UserName Cannot be Empty"})
-//     username: string;
-
-//     @IsString()
-//     @IsStrongPassword({},{message:'Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character'})
-//    password: string;
-
-
-   
-
-// }

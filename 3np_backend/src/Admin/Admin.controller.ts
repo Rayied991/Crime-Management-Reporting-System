@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Put, Res, Session, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Patch, Post, Put, Query, Res, Session, UnauthorizedException, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from "@nestjs/common";
 import { AdminService } from "./Admin.service";
 import { AdminDTO } from "./Admin.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -8,6 +8,9 @@ import * as bcrypt from 'bcrypt';
 import { SessionGuard } from "./session.guard";
 import { ManagerDTO } from "src/Manager/Manager.dto";
 import { ManagerEntity } from "src/Manager/manager.entity";
+import { PoliceEntity } from "src/Police/police.entity";
+import { VictimEntity } from "src/Victim/victim.entity";
+import { PRegistrationDTO } from "src/Police/police.dto";
 
 @Controller("admin")
 export class AdminController{
@@ -28,8 +31,8 @@ export class AdminController{
 //1. pass:Abc123
 //2.pass:Abcd12345
 @Post("/addadmin")
+@UsePipes(new ValidationPipe())
 async addadmin(@Body() data: AdminDTO): Promise<string> {
-  // Default salt generation
   const salt = await bcrypt.genSalt();
   data.password = await bcrypt.hash(data.password, salt);
 
@@ -41,11 +44,64 @@ async addadmin(@Body() data: AdminDTO): Promise<string> {
   }
 }
 
+//updateadminbyid
+@Put('/updateadmin/:AdminId')
+@UseGuards(SessionGuard)
+@UsePipes(new ValidationPipe())
+updateAdminbyID(@Param('AdminId') AdminId: number, @Body() data: AdminDTO): object {
+    return this.adminservice.updateAdminById(AdminId, data);
+}
+
+
+
+
 
 @Post("/addmanager")
-async addManager(@Body() manager):Promise<ManagerEntity> {
+@UseGuards(SessionGuard)
+@UsePipes(new ValidationPipe())
+async addManager(@Session() session,@Body() manager):Promise<ManagerEntity> {
   return this.adminservice.addManager(manager);
 }
+
+
+//getpolice using username
+@Get("/getpolice/:username")
+@UseGuards(SessionGuard)
+  async getPoliceInfoByUsername(@Param('username') username: string): Promise<PoliceEntity> {
+    return this.adminservice.getPoliceInfoByUsername(username);
+  }
+
+// @Post("/addvictim")
+// // @UseGuards(SessionGuard)
+// // @UsePipes(new ValidationPipe())
+// async addVictim(@Session() session,@Body() victim):Promise<VictimEntity> {
+//   return this.adminservice.addVictim(victim);
+// }
+
+@Post('/addpolice')
+@UseGuards(SessionGuard)
+  @UsePipes(new ValidationPipe())
+  async addPolice(@Session() session, @Body() police: PoliceEntity): Promise<PoliceEntity> {
+    const admin = await this.adminservice.getAdminById(session.adminId); // Assuming you have the AdminId stored in the session as "adminId"
+    police.admins = [admin];
+
+    return this.adminservice.addPolice(police);
+  }
+  //delete police account using username and also delete many to many relation table also
+  @Delete('/deletepolice/:username')
+  @UseGuards(SessionGuard)
+  @UsePipes(new ValidationPipe())
+  async deletePolice(@Param('username') username: string): Promise<PoliceEntity> {
+    return this.adminservice.deletePoliceAccount(username);
+  }
+  //update police account using username 
+  @Put('/updatepolice/:username')
+  @UseGuards(SessionGuard)
+  @UsePipes(new ValidationPipe())
+  updatePolice(@Param('username') username: string, @Body() data: PRegistrationDTO): object {
+    return this.adminservice.updatePoliceAccount(username, data);
+  }
+
 
 
 // @Post("/addmanager/:id")
@@ -91,6 +147,10 @@ logout(@Session() session)
     throw new UnauthorizedException("Can't log out");
   }
 }
+
+
+
+
 
 
 

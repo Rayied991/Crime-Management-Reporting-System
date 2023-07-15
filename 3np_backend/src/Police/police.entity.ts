@@ -1,5 +1,5 @@
 import { AdminEntity } from "src/Admin/Admin.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, OneToOne, PrimaryColumn } from "typeorm";
 
 @Entity("Police")
 export class PoliceEntity{
@@ -22,7 +22,7 @@ export class PoliceEntity{
     @Column()
     Profile_image:string;
 
-    @OneToOne(() => AdminEntity, admin => admin.police)
-    @JoinColumn({name:"AdminId"})
-    admin: "AdminEntity";
+    @ManyToMany(() => AdminEntity, admin => admin.polices)
+   
+    admins: AdminEntity[];
 }

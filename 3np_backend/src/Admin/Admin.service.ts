@@ -9,6 +9,8 @@ import { PoliceEntity } from "src/Police/police.entity";
 import { AdminDTO } from "./Admin.dto";
 import * as bcrypt from 'bcrypt';
 import { ManagerDTO } from "src/Manager/Manager.dto";
+import { PRegistrationDTO } from "src/Police/police.dto";
+import { VicDTO } from "src/Victim/victim.dto";
 
 @Injectable()
 export class AdminService{
@@ -29,8 +31,31 @@ export class AdminService{
 //   return this.ManagerRepo.findOneBy({ManagerID:id});
 //   return  this.ManagerRepo.save(manager);
 // }
+// updateadminbyid
+async updateAdminById(id: number, data: AdminDTO): Promise<AdminEntity> {
+  await this.adminRepo.update(id, data);
+  return this.adminRepo.findOneBy({ AdminId:id });
+}
+// //getall admins
+// async getAllAdmins(): Promise<AdminEntity[]> {
+//   return this.adminRepo.find();
+// }
+
+//get admins by id
+async getAdminById(id: number): Promise<AdminEntity> {
+  return this.adminRepo.findOneBy({ AdminId: id });
+}
+
+  
+
 async addManager(data: ManagerDTO): Promise<ManagerEntity> {
   return this.ManagerRepo.save(data);
+}
+async addPolice(police: PoliceEntity): Promise<PoliceEntity> {
+  return this.PoliceRepo.save(police);
+}
+async addVictim(data: VicDTO): Promise<VictimEntity> {
+  return this.VictimRepo.save(data);
 }
 // //make a change password using nodemailer and send email after changing password
 // async changePassword(id:number,oldPassword:string,newPassword:string):Promise<AdminEntity>{
@@ -80,6 +105,54 @@ async getAdminProfilebyid(id): Promise<AdminEntity[]> {
 
   return adminProfiles;
 }
+
+// getpolice profile by username
+// async getPoliceProfilebyusername(user:string): Promise<PoliceEntity[]> {
+//   const policeProfiles = await this.PoliceRepo.find({
+//     where: { Username: user },
+//     relations: ['policeProfile'],
+//   });
+//   if (!policeProfiles || policeProfiles.length === 0) {
+//     throw new NotFoundException('Police profile not found');
+//   }
+//   // Dehash the password
+//   policeProfiles.forEach(police => {
+//     police.Password = undefined;
+//   });
+//   return policeProfiles;
+// }
+async getPoliceInfoByUsername(username: string): Promise<PoliceEntity> {
+  const police = await this.PoliceRepo.findOneBy({ Username: username });
+  if (!police) {
+    throw new NotFoundException('Police user not found');
+  }
+  return police;
+}
+
+//delete police account using username and also delete many to many relation table also
+async deletePoliceAccount(username: string): Promise<PoliceEntity> {
+  const police = await this.PoliceRepo.findOneBy({ Username: username });
+  if (!police) {
+    throw new NotFoundException('Police user not found');
+  }
+  
+  return this.PoliceRepo.remove(police);
+
+}
+
+//update police account using username 
+async updatePoliceAccount(username: string, data: PRegistrationDTO): Promise<PoliceEntity> {
+  const police = await this.PoliceRepo.findOneBy({ Username: username });
+  if (!police) {
+    throw new NotFoundException('Police user not found');
+  }
+  await this.PoliceRepo.update(police.Username, data);
+  return police;
+}
+
+
+
+
 
 
 

@@ -6,6 +6,6 @@ canActivate(
  context: ExecutionContext,
  ): boolean  {
  const request = context.switchToHttp().getRequest();
-return request.session.email !== undefined;
+return request.session.AdminId !== undefined;
 }
 }

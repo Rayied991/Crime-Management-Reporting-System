@@ -3,10 +3,11 @@
 import { ManagerEntity } from "src/Manager/manager.entity";
 import { PoliceEntity } from "src/Police/police.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 
 @Entity("Admin")
+@Unique(['email'])
 export class AdminEntity{
 
     @PrimaryGeneratedColumn()
@@ -27,8 +28,10 @@ export class AdminEntity{
     @OneToOne(() => Adminprofile, adminProfile => adminProfile.admin)
   adminProfile: "Adminprofile";
 
-    @OneToOne(() => PoliceEntity, police => police.admin)
-  police: "PoliceEntity";
+    @ManyToMany(() => PoliceEntity, police => police.admins)
+    @JoinTable({name:"admin_police_relation"})
+   
+  polices: PoliceEntity[];
 
   @OneToOne(() => VictimEntity, victim => victim.admin)
   victim: "VictimEntity";
