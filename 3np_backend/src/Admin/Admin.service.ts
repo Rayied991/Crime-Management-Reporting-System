@@ -162,9 +162,15 @@ async updatePoliceAccount(username: string, data: PRegistrationDTO): Promise<Pol
   if (!police) {
     throw new NotFoundException('Police user not found');
   }
-  await this.PoliceRepo.update(police.Username, data);
+  const updateResult = await this.PoliceRepo.update(police.Username, data);
+  if (updateResult.affected > 0) {
+    'Police user updated successfully' ;
+  } else {
+    'Update operation failed' ;
+  }
   return police;
 }
+
 async updatevictimbyid(id: number, data: VicDTO): Promise<VictimEntity> {
   const victim = await this.VictimRepo.findOneBy({id:id});
   if (!victim) {

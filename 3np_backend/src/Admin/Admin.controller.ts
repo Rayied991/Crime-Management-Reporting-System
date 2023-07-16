@@ -68,7 +68,8 @@ async addManager(@Session() session,@Body() manager):Promise<ManagerEntity> {
     const admin = await this.adminservice.getAdminById(session.adminId); // Assuming you have the AdminId stored in the session as "adminId"
     police.admins = [admin];
 
-    return this.adminservice.addPolice(police);
+    return  this.adminservice.addPolice(police);
+   
   }
   //delete police account using username 
   @Delete('/deletepolice/:username')
