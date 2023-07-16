@@ -11,23 +11,12 @@ import { ManagerEntity } from "src/Manager/manager.entity";
 import { PoliceEntity } from "src/Police/police.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
 import { PRegistrationDTO } from "src/Police/police.dto";
+import { VicDTO } from "src/Victim/victim.dto";
 
 @Controller("admin")
 export class AdminController{
     constructor(private readonly adminservice:AdminService){}
-    //add new admin user
-//   @Post('/addadmin')
-//   @UsePipes(new ValidationPipe())
-//   async create(@Body() mydto:AdminDTO) {
-//     const result = this.adminservice.create(mydto);
-//     if(await result === 0) {
-//       return "email already signed up";
-//     } else {
-     
-//       return "account created";
-//     }
-//   }
-// }
+    
 //1. pass:Abc123
 //2.pass:Abcd12345
 @Post("/addadmin")
@@ -71,12 +60,6 @@ async addManager(@Session() session,@Body() manager):Promise<ManagerEntity> {
     return this.adminservice.getPoliceInfoByUsername(username);
   }
 
-// @Post("/addvictim")
-// // @UseGuards(SessionGuard)
-// // @UsePipes(new ValidationPipe())
-// async addVictim(@Session() session,@Body() victim):Promise<VictimEntity> {
-//   return this.adminservice.addVictim(victim);
-// }
 
 @Post('/addpolice')
 @UseGuards(SessionGuard)
@@ -87,7 +70,7 @@ async addManager(@Session() session,@Body() manager):Promise<ManagerEntity> {
 
     return this.adminservice.addPolice(police);
   }
-  //delete police account using username and also delete many to many relation table also
+  //delete police account using username 
   @Delete('/deletepolice/:username')
   @UseGuards(SessionGuard)
   @UsePipes(new ValidationPipe())
@@ -98,17 +81,40 @@ async addManager(@Session() session,@Body() manager):Promise<ManagerEntity> {
   @Put('/updatepolice/:username')
   @UseGuards(SessionGuard)
   @UsePipes(new ValidationPipe())
-  updatePolice(@Param('username') username: string, @Body() data: PRegistrationDTO): object {
+  updatePolice(@Param('username') username: string, @Body() data: PRegistrationDTO): Promise<PoliceEntity> {
     return this.adminservice.updatePoliceAccount(username, data);
+  }
+
+  @Post('/addVictim')
+@UseGuards(SessionGuard)
+  @UsePipes(new ValidationPipe())
+  async addVictim(@Session() session, @Body() victim: VictimEntity): Promise<VictimEntity> {
+    const admin = await this.adminservice.getAdminById(session.adminId); // Assuming you have the AdminId stored in the session as "adminId"
+    victim.admins = [admin];
+
+    return this.adminservice.AddVictim(victim);
+  }
+  @Get("/getVictim/:id")
+@UseGuards(SessionGuard)
+  async getVictimById(@Param('id') id: number): Promise<VictimEntity> {
+    return this.adminservice.getVictimById(id);
+  }
+  @Put('/updatevictim/:id')
+  @UseGuards(SessionGuard)
+  @UsePipes(new ValidationPipe())
+  updatevictimbyid(@Param('id') id: number, @Body() data: VicDTO): Promise<VictimEntity> {
+    return this.adminservice.updatevictimbyid(id, data);
+  }
+
+  @Delete('/deletevictim/:id')
+  @UseGuards(SessionGuard)
+  @UsePipes(new ValidationPipe())
+  async deletevictimbyid(@Param('id') id: number): Promise<VictimEntity> {
+    return this.adminservice.deletevictimbyid(id);
   }
 
 
 
-// @Post("/addmanager/:id")
-// // @UseGuards(SessionGuard)
-// async addmanager(@Param('id',ParseIntPipe) id: number,@Body() data: ManagerDTO):Promise<ManagerEntity> {
-//    return await this.adminservice.addmanager(id,data);
-// }
 
 
 @Get("/adminprofile/:id")

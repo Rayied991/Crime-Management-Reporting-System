@@ -54,8 +54,8 @@ async addManager(data: ManagerDTO): Promise<ManagerEntity> {
 async addPolice(police: PoliceEntity): Promise<PoliceEntity> {
   return this.PoliceRepo.save(police);
 }
-async addVictim(data: VicDTO): Promise<VictimEntity> {
-  return this.VictimRepo.save(data);
+async AddVictim(victim: VictimEntity): Promise<VictimEntity> {
+  return this.VictimRepo.save(victim);
 }
 // //make a change password using nodemailer and send email after changing password
 // async changePassword(id:number,oldPassword:string,newPassword:string):Promise<AdminEntity>{
@@ -128,6 +128,13 @@ async getPoliceInfoByUsername(username: string): Promise<PoliceEntity> {
   }
   return police;
 }
+async getVictimById(id: number): Promise<VictimEntity> {
+  const victim = await this.VictimRepo.findOneBy({ id: id });
+  if (!victim) {
+    throw new NotFoundException('Victim user not found');
+  }
+  return victim;
+}
 
 //delete police account using username and also delete many to many relation table also
 async deletePoliceAccount(username: string): Promise<PoliceEntity> {
@@ -139,6 +146,15 @@ async deletePoliceAccount(username: string): Promise<PoliceEntity> {
   return this.PoliceRepo.remove(police);
 
 }
+async deletevictimbyid(id: number): Promise<VictimEntity> {
+  const victim = await this.VictimRepo.findOneBy({ id: id });
+  if (!victim) {
+    throw new NotFoundException('Victim user not found');
+  }
+  
+  return this.VictimRepo.remove(victim);
+
+}
 
 //update police account using username 
 async updatePoliceAccount(username: string, data: PRegistrationDTO): Promise<PoliceEntity> {
@@ -148,6 +164,14 @@ async updatePoliceAccount(username: string, data: PRegistrationDTO): Promise<Pol
   }
   await this.PoliceRepo.update(police.Username, data);
   return police;
+}
+async updatevictimbyid(id: number, data: VicDTO): Promise<VictimEntity> {
+  const victim = await this.VictimRepo.findOneBy({id:id});
+  if (!victim) {
+    throw new NotFoundException('Victim user not found');
+  }
+  await this.VictimRepo.update(victim.id, data);
+  return victim;
 }
 
 

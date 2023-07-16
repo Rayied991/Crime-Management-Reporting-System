@@ -1,5 +1,5 @@
 import { AdminEntity } from "src/Admin/Admin.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 
  
@@ -30,9 +30,12 @@ export class VictimEntity{
     @Column()
     Insertfile_NID: string;
 
-    @OneToOne(() => AdminEntity, admin => admin.victim)
-    @JoinColumn({name:"AdminId"})
-    admin: "AdminEntity";
+    // @OneToOne(() => AdminEntity, admin => admin.victim)
+    // @JoinColumn({name:"AdminId"})
+    // admin: "AdminEntity";
+
+    @ManyToMany(()=>AdminEntity,admin=>admin.victims)
+    admins:AdminEntity[];
 
 
 

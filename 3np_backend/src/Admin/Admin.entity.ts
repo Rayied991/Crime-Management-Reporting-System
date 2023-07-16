@@ -33,8 +33,13 @@ export class AdminEntity{
    
   polices: PoliceEntity[];
 
-  @OneToOne(() => VictimEntity, victim => victim.admin)
-  victim: "VictimEntity";
+
+  @ManyToMany(()=>VictimEntity,victim =>victim.admins)
+  @JoinTable({name:"admin_victim_relation"})
+  victims:VictimEntity[];
+
+  // @OneToOne(() => VictimEntity, victim => victim.admin)
+  // victim: "VictimEntity";
 
   @OneToMany(()=>ManagerEntity,manager=>manager.admin)
   managers:ManagerEntity[];
