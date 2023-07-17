@@ -25,7 +25,7 @@ export class PRegistrationDTO{
       @IsNotEmpty({message:"Please enter username"})
      
       @MaxLength(12, {message:"User name less than 12 character"})
-       username: string;
+      username: string;
  
        @IsString({message:"invalid location name"})
      @IsNotEmpty({message:"Please enter location name"})
@@ -50,7 +50,7 @@ export class PRegistrationDTO{
  
   
  }
- 
+
  export class AddFIRDTO{
  
  police_name:string;
@@ -107,6 +107,22 @@ export class PRegistrationDTO{
  }
  
  
+ 
+ export class SendFIRDto {
+   VictimID: number;
+   PostID: number;
+   FIRReport: string;
+   InvestigatedBy: string;
+   To: string;
+   Subject: string;
+ }
+ 
+ export class GetForgertPassDTO{
+   PoliceUsername: string;
+   Text:string;
+   To: string;
+   Subject: string;
+ }
  
  
  export class Change_Pass{

@@ -1,7 +1,7 @@
 
 
 import { ManagerEntity } from "src/Manager/manager.entity";
-import { PoliceEntity } from "src/Police/police.entity";
+import { PRegistrationEntity } from "src/Police/police.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
 
@@ -28,10 +28,10 @@ export class AdminEntity{
     @OneToOne(() => Adminprofile, adminProfile => adminProfile.admin)
   adminProfile: "Adminprofile";
 
-    @ManyToMany(() => PoliceEntity, police => police.admins)
+    @ManyToMany(() => PRegistrationEntity, police => police.admins)
     @JoinTable({name:"admin_police_relation"})
    
-  polices: PoliceEntity[];
+  polices: PRegistrationEntity[];
 
 
   @ManyToMany(()=>VictimEntity,victim =>victim.admins)

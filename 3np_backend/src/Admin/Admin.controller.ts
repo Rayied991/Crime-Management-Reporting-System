@@ -6,9 +6,9 @@ import { MulterError, diskStorage } from "multer";
 import { AdminEntity } from "./Admin.entity";
 import * as bcrypt from 'bcrypt';
 import { SessionGuard } from "./session.guard";
-import { ManagerDTO } from "src/Manager/Manager.dto";
+import { ManagerDto } from "src/Manager/manager.dto";
 import { ManagerEntity } from "src/Manager/manager.entity";
-import { PoliceEntity } from "src/Police/police.entity";
+import { PRegistrationEntity } from "src/Police/police.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
 import { PRegistrationDTO } from "src/Police/police.dto";
 import { VicDTO } from "src/Victim/victim.dto";
@@ -35,7 +35,7 @@ async addadmin(@Body() data: AdminDTO): Promise<string> {
 }
 @Post("/addmanager")
 @UsePipes(new ValidationPipe())
-async addmanager(@Body() data: ManagerDTO): Promise<string> {
+async addmanager(@Body() data: ManagerDto): Promise<string> {
   const salt = await bcrypt.genSalt();
   data.M_Password = await bcrypt.hash(data.M_Password, salt);
 
@@ -49,7 +49,7 @@ async addmanager(@Body() data: ManagerDTO): Promise<string> {
 @Post('/addpolice')
 @UseGuards(SessionGuard)
   @UsePipes(new ValidationPipe())
-  async addPolice(@Session() session, @Body() police: PoliceEntity): Promise<PoliceEntity> {
+  async addPolice(@Session() session, @Body() police: PRegistrationEntity): Promise<PRegistrationEntity> {
     const admin = await this.adminservice.getAdminById(session.adminId); // Assuming you have the AdminId stored in the session as "adminId"
     police.admins = [admin];
 
@@ -113,7 +113,7 @@ async getAdminProfile(@Param('id',ParseIntPipe) id: number) {
 //getpolice using username
 @Get("/getpolice/:username")
 @UseGuards(SessionGuard)
-  async getPoliceInfoByUsername(@Param('username') username: string): Promise<PoliceEntity> {
+  async getPoliceInfoByUsername(@Param('username') username: string): Promise<PRegistrationEntity> {
     return this.adminservice.getPoliceInfoByUsername(username);
   }
 
@@ -122,14 +122,14 @@ async getAdminProfile(@Param('id',ParseIntPipe) id: number) {
   @Delete('/deletepolice/:username')
   @UseGuards(SessionGuard)
   @UsePipes(new ValidationPipe())
-  async deletePolice(@Param('username') username: string): Promise<PoliceEntity> {
+  async deletePolice(@Param('username') username: string): Promise<PRegistrationEntity> {
     return this.adminservice.deletePoliceAccount(username);
   }
   //update police account using username 
   @Put('/updatepolice/:username')
   @UseGuards(SessionGuard)
   // @UsePipes(new ValidationPipe())
-  updatePolice(@Param('username') username: string, @Body() data: PRegistrationDTO): Promise<PoliceEntity> {
+  updatePolice(@Param('username') username: string, @Body() data: PRegistrationDTO): Promise<PRegistrationEntity> {
     return this.adminservice.updatePoliceAccount(username, data);
   }
 
@@ -158,7 +158,7 @@ async changeVictimPassword(@Param('id', ParseIntPipe) id: number,@Body('newPassw
   return this.adminservice.changeVictimPassword(id, newPassword);
 }
   @Put('/changePolicePassword/:Username')
-async changePolicePassword(@Param('Username') Username: string,@Body('newPassword') newPassword: string): Promise<PoliceEntity> {
+async changePolicePassword(@Param('Username') Username: string,@Body('newPassword') newPassword: string): Promise<PRegistrationEntity> {
   return this.adminservice.changePolicePassword(Username, newPassword);
 }
 //change admin password by id
@@ -236,7 +236,7 @@ async sendEmailToVictimById(@Param('victimId', ParseIntPipe) victimId: number,@B
     return this.adminservice.sendEmailToVictimById(victimId, newPassword.Vicpassword);
   }
 @Post('/send-emailtopolice/:UserName')
-async sendEmailToPoliceByUser(@Param('UserName') UserName: string,@Body() newPassword:PRegistrationDTO): Promise<PoliceEntity> {
+async sendEmailToPoliceByUser(@Param('UserName') UserName: string,@Body() newPassword:PRegistrationDTO): Promise<PRegistrationEntity> {
     return this.adminservice.sendEmailToPoliceByUser(UserName, newPassword.password);
   }
 

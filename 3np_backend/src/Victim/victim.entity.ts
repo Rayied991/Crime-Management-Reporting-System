@@ -1,5 +1,8 @@
 import { AdminEntity } from "src/Admin/Admin.entity";
-import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { UpEvidence } from "./UploadEvi";
+import { PostComplain } from "./Postcom.entity";
+import { CrimeStatusEntity } from "./CrimeStatus";
 
 
  
@@ -34,6 +37,16 @@ export class VictimEntity{
 
     @ManyToMany(()=>AdminEntity,admin=>admin.victims)
     admins:AdminEntity[];
+
+    @OneToOne(()=>UpEvidence,victimfile=>victimfile.upload)
+victimfile: "UpEvidence";
+
+@OneToMany(()=>PostComplain,postCom=>postCom.victim)
+postcom: PostComplain[];
+
+
+@OneToOne(()=>CrimeStatusEntity,CrimeStatus=>CrimeStatus.police)
+CrimeStatus: CrimeStatusEntity;
 
 
 

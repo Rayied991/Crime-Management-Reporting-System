@@ -1,5 +1,5 @@
 import { AdminEntity } from "src/Admin/Admin.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("Manager")
 
@@ -19,4 +19,70 @@ export class ManagerEntity{
     @ManyToOne(()=> AdminEntity,admin => admin.managers)
     @JoinColumn({name:"AdminId"})
     admin:AdminEntity;
+
+    @OneToOne(() => managerProfile, managerProfile => managerProfile.manager)
+    managerProfile: "managerProfile";
+    
+    @OneToMany(() =>SafetyPostEntity,safety => safety.ManagerID)
+    safetypost:SafetyPostEntity[];
 }
+
+@Entity("managerProfile")
+export class managerProfile{
+    @PrimaryGeneratedColumn()
+    ManagerID:number;
+
+
+    @OneToOne(() => ManagerEntity, manager => manager.managerProfile)
+    @JoinColumn({name:"Manager_ID"})
+    manager:  ManagerEntity;
+
+
+
+}
+
+    @Entity("SafetyPost")
+export class SafetyPostEntity{
+
+        @PrimaryGeneratedColumn()
+        SP_NO: number;
+
+        @Column()
+        SP: string;
+     
+        @ManyToOne(()=> ManagerEntity,manager=>manager.safetypost)
+        @JoinColumn({name:"Manager_ID"})
+        ManagerID:ManagerEntity;
+
+   
+    
+    }
+
+    @Entity("NoticePost")
+export class NoticePostEntity{
+
+    @PrimaryGeneratedColumn()
+    NP_NO: number;
+
+    @Column()
+    NP: string;
+ 
+    
+
+
+}    
+@Entity("InvestigationTeam")
+export class InvestigationTeamEntity{
+
+    @PrimaryGeneratedColumn()
+    IT_ID: number;
+
+    @Column()
+    IT_Member:string;
+ 
+
+
+} 
+
+
+    
