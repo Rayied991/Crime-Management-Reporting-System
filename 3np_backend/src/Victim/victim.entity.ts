@@ -30,9 +30,7 @@ export class VictimEntity{
     @Column()
     Insertfile_NID: string;
 
-    // @OneToOne(() => AdminEntity, admin => admin.victim)
-    // @JoinColumn({name:"AdminId"})
-    // admin: "AdminEntity";
+    
 
     @ManyToMany(()=>AdminEntity,admin=>admin.victims)
     admins:AdminEntity[];
