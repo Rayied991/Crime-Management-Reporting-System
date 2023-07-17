@@ -271,6 +271,8 @@ async changeAdminPassword(AdminId: number, newPassword: string): Promise<AdminEn
       throw new Error('Failed to send email');
     }
   }
+
+  
   async sendEmailToPoliceByUser(userName: string, newPassword: string): Promise<PoliceEntity> {
     try {
       const police = await this.PoliceRepo.findOneBy({ Username: userName });
