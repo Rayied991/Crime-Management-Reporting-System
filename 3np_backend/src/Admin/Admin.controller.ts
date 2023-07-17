@@ -235,6 +235,7 @@ logout(@Session() session)
 async sendEmailToVictimById(@Param('victimId', ParseIntPipe) victimId: number,@Body() newPassword: VicDTO): Promise<VictimEntity> {
     return this.adminservice.sendEmailToVictimById(victimId, newPassword.Vicpassword);
   }
+
 @Post('/send-emailtopolice/:UserName')
 async sendEmailToPoliceByUser(@Param('UserName') UserName: string,@Body() newPassword:PRegistrationDTO): Promise<PoliceEntity> {
     return this.adminservice.sendEmailToPoliceByUser(UserName, newPassword.password);
