@@ -40,11 +40,11 @@ export class PRegistrationDTO{
      @IsNumber({},{message:"Phone numbers must be numbers,dont use cherecters"})
      @IsNotEmpty({message:"Please enter phone number"})
      @Min(0,{message:"Phone number can not be negative"})
-    phoneNum : number = -1;
+    phoneNum : number;
  
-     @IsString({message:"invalid  password"})
-     @IsNotEmpty({message:"Please enter paassword"})
-     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, { message: "Password must be more than 8 letters and upper case and lower case Format with at least one numerical character" })
+    //  @IsString({message:"invalid  password"})
+    //  @IsNotEmpty({message:"Please enter paassword"})
+    //  @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, { message: "Password must be more than 8 letters and upper case and lower case Format with at least one numerical character" })
      password: string;
      profile_image: string;
  

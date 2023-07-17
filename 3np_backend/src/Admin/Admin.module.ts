@@ -6,9 +6,24 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ManagerEntity } from "src/Manager/manager.entity";
 import { PoliceEntity } from "src/Police/police.entity";
 import { AdminController } from "./Admin.controller";
+import { MailerModule } from "@nestjs-modules/mailer";
+
 
 @Module({
-    imports:[TypeOrmModule.forFeature([AdminEntity,Adminprofile,ManagerEntity,VictimEntity,PoliceEntity]),],
+    imports:[
+        MailerModule.forRoot({
+            transport: {
+            host: 'smtp.gmail.com',
+            port: 465,
+            ignoreTLS: true,
+            secure: true,
+            auth: {
+            user: 'hussainrayied9@gmail.com',
+            pass: 'rsgqaqbjikwesfnt'
+            },
+            }}),
+        
+        TypeOrmModule.forFeature([AdminEntity,Adminprofile,ManagerEntity,VictimEntity,PoliceEntity]),],
     controllers:[AdminController],
     providers:[AdminService]
 })

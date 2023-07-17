@@ -12,7 +12,7 @@ async function bootstrap() {
     //session is uninitialized when it is new but not modified.
     //False is set for implementing login sessions, reducing server storage usage
      cookie:{
-      maxAge:10000
+      maxAge:60000
      }
      }),
     );

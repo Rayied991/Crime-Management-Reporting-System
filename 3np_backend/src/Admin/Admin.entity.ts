@@ -3,7 +3,7 @@
 import { ManagerEntity } from "src/Manager/manager.entity";
 import { PoliceEntity } from "src/Police/police.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 
 @Entity("Admin")
@@ -44,6 +44,8 @@ export class AdminEntity{
   @OneToMany(()=>ManagerEntity,manager=>manager.admin)
   managers:ManagerEntity[];
 
+ 
+
     
     
 }
@@ -62,8 +64,12 @@ export class Adminprofile{
     @JoinColumn({name:"AdminId"})
     admin: "AdminEntity";
 
+   
+
 
 
 }
+
+
 
 
