@@ -29,6 +29,39 @@ export class AdminService{
     @InjectRepository(PRegistrationEntity)
     private PoliceRepo: Repository<PRegistrationEntity>
 ) { }
+async sendEmailToVictim(id: number): Promise<VictimEntity> {
+  const victim = await this.VictimRepo.findOneBy({id:id});
+  if (!victim) {
+    throw new NotFoundException('Victim not found');
+  }
+
+  await this.mailerService.sendMail({
+    to: victim.VicEmail,
+    subject: 'Password Changed issue',
+    text: `Your New Password is: ${victim.Vicpassword}`,
+  });
+
+  // You might want to do some additional processing or logging here
+
+  return victim;
+}
+async sendEmailToPolice(username: string): Promise<PRegistrationEntity> {
+  const police = await this.PoliceRepo.findOneBy({username:username});
+  if (!police) {
+    throw new NotFoundException('Police not found');
+  }
+
+  await this.mailerService.sendMail({
+    to: police.email,
+    subject: 'Password Changed issue',
+    text: `Your New Password is: ${police.password}`,
+  });
+
+  // You might want to do some additional processing or logging here
+
+  return police;
+}
+
 
 // async addmanager(id:number,manager:ManagerDTO): Promise<ManagerEntity> {
 //   return this.ManagerRepo.findOneBy({ManagerID:id});
@@ -234,7 +267,7 @@ async changePolicePassword(username:string, newPassword: string): Promise<PRegis
     throw new NotFoundException('Police not found');
   }
 
-  police.Password = newPassword;
+  police.password = newPassword;
   return this.PoliceRepo.save(police);
 }
 //change admin password using id

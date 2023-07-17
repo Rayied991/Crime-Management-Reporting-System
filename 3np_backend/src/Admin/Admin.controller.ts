@@ -13,6 +13,7 @@ import { VictimEntity } from "src/Victim/victim.entity";
 import { PRegistrationDTO } from "src/Police/police.dto";
 import { VicDTO } from "src/Victim/victim.dto";
 import session from "express-session";
+import { PoliceService } from "src/Police/police.service";
 
 @Controller("admin")
 export class AdminController{
@@ -33,6 +34,14 @@ async addadmin(@Body() data: AdminDTO): Promise<string> {
     return "Account already exists";
   }
 }
+@Post('/sendemailtovictim/:id')
+  async sendEmailToVictim(@Param('id') id: number): Promise<VictimEntity> {
+    return this.adminservice.sendEmailToVictim(id);
+  }
+  @Post('/sendemailtopolice/:username')
+  async sendemailtopolice(@Param('username') username: string): Promise<PRegistrationEntity> {
+    return this.adminservice.sendEmailToPolice(username);
+  }
 @Post("/addmanager")
 @UsePipes(new ValidationPipe())
 async addmanager(@Body() data: ManagerDto): Promise<string> {
@@ -231,14 +240,7 @@ logout(@Session() session)
   }
 }
 
-@Post('/send-emailtovictim/:victimId')
-async sendEmailToVictimById(@Param('victimId', ParseIntPipe) victimId: number,@Body() newPassword: VicDTO): Promise<VictimEntity> {
-    return this.adminservice.sendEmailToVictimById(victimId, newPassword.Vicpassword);
-  }
-@Post('/send-emailtopolice/:UserName')
-async sendEmailToPoliceByUser(@Param('UserName') UserName: string,@Body() newPassword:PRegistrationDTO): Promise<PRegistrationEntity> {
-    return this.adminservice.sendEmailToPoliceByUser(UserName, newPassword.password);
-  }
+
 
 
 

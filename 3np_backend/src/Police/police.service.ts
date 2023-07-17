@@ -1,7 +1,5 @@
 
-/*
-https://docs.nestjs.com/providers#services
-*/
+
 
 import { Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
 import { Add1_Wanted_List_DTO,  Change_Pass,   CrimeDetails_DTO,    CrimeStatusDTO,     GetForgertPassDTO,     PRegistrationDTO, Police_Profile_Login_DTO, SendFIRDto} from './police.dto';
@@ -214,7 +212,7 @@ async SearchCrimeStatus(username): Promise<PRegistrationEntity[]> {
     async PLogIn(data) {
         if (data.username != null && data.password != null) {
         const userdata= await this.registrationRepository.findOneBy({username:data.username});
-    const match= await bcrypt.compare(data.password, userdata.Password);
+    const match= await bcrypt.compare(data.password, userdata.password);
     //return match;
     if (match) {
         //return "WElCOME YOUR ACCOUNT";

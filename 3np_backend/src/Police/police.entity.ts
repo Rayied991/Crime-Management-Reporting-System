@@ -7,20 +7,20 @@ export class PRegistrationEntity{
     username:string;
 
     @Column()
-    Fname:string;
+    fname:string;
     @Column()
-    Lname:string;
+    lname:string;
     @Column()
-    Location:string;
+    location:string;
     @Column()
     email:string;
     @Column()
-    phonNum:number;
+    phoneNum:string;
     @Column()
-    Password:string;
+    password:string;
 
     @Column()
-    Profile_image:string;
+    profile_image:string;
 
     @ManyToMany(() => AdminEntity, admin => admin.polices)
    

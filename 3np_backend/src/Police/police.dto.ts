@@ -37,10 +37,11 @@ export class PRegistrationDTO{
      email: string;
      //email_password:string;
  
-     @IsNumber({},{message:"Phone numbers must be numbers,dont use cherecters"})
-     @IsNotEmpty({message:"Please enter phone number"})
-     @Min(0,{message:"Phone number can not be negative"})
-    phoneNum : number;
+     @IsNotEmpty({ message: ' Phone Number cannot be empty or null' })
+     @IsNotEmpty({ message: 'Phone number cannot be empty or null' })
+     @MinLength(10, { message: 'Phone number should be at least 10 characters long' })
+     @MaxLength(20, { message: 'Phone number should not be more than 20 characters long' })
+    phoneNum : string;
  
     //  @IsString({message:"invalid  password"})
     //  @IsNotEmpty({message:"Please enter paassword"})
