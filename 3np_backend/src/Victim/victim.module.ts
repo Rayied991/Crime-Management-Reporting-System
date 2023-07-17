@@ -8,6 +8,8 @@ import {  vicEntity } from "./victim.entity";
 //import { AdminEntity } from "./victim.entity";
 import { VicService } from "./victim.service";
 import { MailerModule } from "@nestjs-modules/mailer";
+import { UpEvidence } from "src/UploadEvidence/UploadEvi";
+import { CrimeStatusEntity } from "src/CrimeStatus/CrimeStatus";
 
 
 
@@ -24,7 +26,7 @@ import { MailerModule } from "@nestjs-modules/mailer";
                  },
                 }
     }),
-      TypeOrmModule.forFeature([vicEntity,PostComplain]),],
+      TypeOrmModule.forFeature([vicEntity,PostComplain,UpEvidence,CrimeStatusEntity]),],
     controllers: [VicController],
     providers: [VicService],
   })

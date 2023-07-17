@@ -22,7 +22,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 @Entity("PostComplain")
 export class PostComplain{
     @PrimaryGeneratedColumn()
-    id:number
+    id:number;
 
     @Column({name:'fname',type: "varchar",length: 150})
     Victim_FName: string;

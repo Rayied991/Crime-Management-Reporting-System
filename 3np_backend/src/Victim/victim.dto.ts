@@ -1,4 +1,4 @@
-import { IsAlphanumeric, IsEmail, IsEmpty, isNotEmpty, IsNotEmpty, IsNumber, isNumber, IsString, IsStrongPassword, Length, Matches, MaxLength, Min, MinLength } from "class-validator";
+import { IsAlphanumeric, IsDate, IsEmail, IsEmpty, isNotEmpty, IsNotEmpty, IsNumber, isNumber, IsString, IsStrongPassword, Length, Matches, MaxLength, Min, MinLength } from "class-validator";
 import { Doc } from "prettier";
 import { Equal } from "typeorm";
 
@@ -76,6 +76,18 @@ export class VicLoginDTO{
    Vicpassword: string;
 
 }
+export class VicUpdateDTO{
+
+   
+     VicEmail: string;
+
+    
+      Vicpassword: string;
+
+   
+     Confirm_Vicpassword: string;
+
+}
 //parameterized constructor has 2 objects so 
 //export class VicUpdateDTO
 //{
@@ -101,19 +113,48 @@ export class VicLoginDTO{
 //
 export  class PostComDTO{
 
-    // @IsString()
-    // @IsNotEmpty()
-    // @Length(2000)
-    // @MinLength(5,{message:"Cannot be less than 5 characters"})
-    // @MaxLength(20000,{message:"cannot be more than 20000characters"})
+  
+
+     @IsNotEmpty()
+  
+   @IsEmail()
     VicEmail: string;
+     // @MinLength(5,{message:"Cannot be less than 5 characters"})
+     @MaxLength(20000,{message:"cannot be more than 20000characters"})
+       @IsNotEmpty()
     PostCom : string;
-    // @IsNotEmpty()
+    @IsNotEmpty()
+    //@IsDate()
     Eventdate : string;
     //Upload_file : Document;
-    // @IsString()
-    // @IsNotEmpty()
+    @IsString()
+    @IsNotEmpty()
     Witness : string;
+    
+    @IsNotEmpty()
+    
     FileUpload : string;
 
 }
+export class UpdateCom{
+
+  @IsNotEmpty()
+
+  PostCom : string;
+
+}
+export class UpEvidenceDTO{
+    EvidenceNo : number;
+
+    @IsEmail()
+    VicEmail: string;
+
+    Evidence_File: string;
+
+}
+export class CrimeStatusDTO{
+ 
+  PostId:number;
+  
+  Status:string;
+   }
