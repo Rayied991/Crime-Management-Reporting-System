@@ -19,7 +19,7 @@ import { PRegistrationEntity } from "src/Police/police.entity";
             secure: true,
             auth: {
             user: 'hussainrayied9@gmail.com',
-            pass: 'rsgqaqbjikwesfnt'
+            pass: 'hidden'
             },
             }}),
         

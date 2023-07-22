@@ -56,7 +56,7 @@ async addmanager(@Body() data: ManagerDto): Promise<string> {
   }
 }
 @Post('/addpolice')
-@UseGuards(SessionGuard)
+// @UseGuards(SessionGuard)
   @UsePipes(new ValidationPipe())
   async addPolice(@Session() session, @Body() police: PRegistrationEntity): Promise<PRegistrationEntity> {
     const admin = await this.adminservice.getAdminById(session.adminId); // Assuming you have the AdminId stored in the session as "adminId"
@@ -66,7 +66,7 @@ async addmanager(@Body() data: ManagerDto): Promise<string> {
    
   }
   @Post('/addVictim')
-@UseGuards(SessionGuard)
+// @UseGuards(SessionGuard)
   @UsePipes(new ValidationPipe())
   async addVictim(@Session() session, @Body() victim: VictimEntity): Promise<VictimEntity> {
     const admin = await this.adminservice.getAdminById(session.adminId); // Assuming you have the AdminId stored in the session as "adminId"

@@ -19,7 +19,7 @@ import { PostComplain } from 'src/Victim/Postcom.entity';
                            secure: true,
                            auth: {
                                user: 'marmitapaul@gmail.com',
-                               pass: 'guyyqqvzhigtydko'
+                               pass: 'hidden'
                            },
                           }
               }),

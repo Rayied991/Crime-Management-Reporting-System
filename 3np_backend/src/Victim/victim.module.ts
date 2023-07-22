@@ -24,7 +24,7 @@ import { CrimeStatusEntity } from "./CrimeStatus";
                  secure: true,
                  auth: {
                      user: 'sarkarmagdalene3@gmail.com',
-                     pass: 'fdojjuxwwqdumtzr'
+                     pass: 'hidden'
                  },
                 }
     }),
