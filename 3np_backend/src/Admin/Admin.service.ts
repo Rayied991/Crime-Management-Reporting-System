@@ -5,10 +5,10 @@ import { Repository } from "typeorm";
 import { AdminEntity, Adminprofile } from "./Admin.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
 import { ManagerEntity } from "src/Manager/manager.entity";
-import { PoliceEntity } from "src/Police/police.entity";
+import { PRegistrationEntity } from "src/Police/police.entity";
 import { AdminDTO } from "./Admin.dto";
 import * as bcrypt from 'bcrypt';
-import { ManagerDTO } from "src/Manager/Manager.dto";
+import { ManagerDto } from "src/Manager/manager.dto";
 import { PRegistrationDTO } from "src/Police/police.dto";
 import { VicDTO } from "src/Victim/victim.dto";
 import { MailerService } from "@nestjs-modules/mailer";
@@ -26,9 +26,42 @@ export class AdminService{
     private VictimRepo: Repository<VictimEntity>,
     @InjectRepository(ManagerEntity)
     private ManagerRepo: Repository<ManagerEntity>,
-    @InjectRepository(PoliceEntity)
-    private PoliceRepo: Repository<PoliceEntity>
+    @InjectRepository(PRegistrationEntity)
+    private PoliceRepo: Repository<PRegistrationEntity>
 ) { }
+async sendEmailToVictim(id: number): Promise<VictimEntity> {
+  const victim = await this.VictimRepo.findOneBy({id:id});
+  if (!victim) {
+    throw new NotFoundException('Victim not found');
+  }
+
+  await this.mailerService.sendMail({
+    to: victim.VicEmail,
+    subject: 'Password Changed issue',
+    text: `Your New Password is: ${victim.Vicpassword}`,
+  });
+
+  // You might want to do some additional processing or logging here
+
+  return victim;
+}
+async sendEmailToPolice(username: string): Promise<PRegistrationEntity> {
+  const police = await this.PoliceRepo.findOneBy({username:username});
+  if (!police) {
+    throw new NotFoundException('Police not found');
+  }
+
+  await this.mailerService.sendMail({
+    to: police.email,
+    subject: 'Password Changed issue',
+    text: `Your New Password is: ${police.password}`,
+  });
+
+  // You might want to do some additional processing or logging here
+
+  return police;
+}
+
 
 // async addmanager(id:number,manager:ManagerDTO): Promise<ManagerEntity> {
 //   return this.ManagerRepo.findOneBy({ManagerID:id});
@@ -75,17 +108,13 @@ async getAdminById(id: number): Promise<AdminEntity> {
 
 
 async create(data:AdminDTO):Promise<AdminEntity>{
-  //default salt generate
-  const salt=await bcrypt.genSalt();
-  //way-1
-  // const hashedPassword=await bcrypt.hash(data.password,salt);
-  // data.password=hashedPassword;
-  //way-2
-  data.password=await bcrypt.hash(data.password,salt);
+  
+  const salt = await bcrypt.genSalt();
+  data.password = await bcrypt.hash(data.password, salt);
  
   return this.adminRepo.save(data);
 }
-async addManager(data:ManagerDTO):Promise<ManagerEntity>{
+async addManager(data:ManagerDto):Promise<ManagerEntity>{
   //default salt generate
   const salt=await bcrypt.genSalt();
   //way-1
@@ -96,11 +125,46 @@ async addManager(data:ManagerDTO):Promise<ManagerEntity>{
  
   return this.ManagerRepo.save(data);
 }
-async addPolice(police: PoliceEntity): Promise<PoliceEntity> {
-  return this.PoliceRepo.save(police);
+
+// async addPolice(police: PRegistrationEntity): Promise<PRegistrationEntity> {
+//   return this.PoliceRepo.save(police);}
+async addPoliceWithAdmin( adminId: number,police: PRegistrationEntity): Promise<PRegistrationEntity | null> {
+  const admin = await this.getAdminByIds(adminId);
+  
+  if (!admin) {
+    throw new Error('Admin not found');
+  }
+  
+  police.admins = [admin];
+  
+  try {
+    return await this.PoliceRepo.save(police); // Save victim with admin relationship
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
-async AddVictim(victim: VictimEntity): Promise<VictimEntity> {
-  return this.VictimRepo.save(victim);
+// }async AddVictim(victim: VictimEntity): Promise<VictimEntity> {
+//   return this.VictimRepo.save(victim);
+// }
+async getAdminByIds(adminId: number): Promise<AdminEntity | undefined> {
+  return this.adminRepo.findOneBy({AdminId:adminId});
+}
+async addVictimWithAdmin( adminId: number,victim: VictimEntity): Promise<VictimEntity | null> {
+  const admin = await this.getAdminByIds(adminId);
+  
+  if (!admin) {
+    throw new Error('Admin not found');
+  }
+  
+  victim.admins = [admin];
+  
+  try {
+    return await this.VictimRepo.save(victim); // Save victim with admin relationship
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 async getAdminProfilebyid(id): Promise<AdminEntity[]> {
   const adminProfiles = await this.adminRepo.find({
@@ -118,6 +182,9 @@ async getAdminProfilebyid(id): Promise<AdminEntity[]> {
 
   return adminProfiles;
 }
+// async getAdminProfilebyid(data:AdminDTO):Promise<AdminEntity>{
+//   return this.adminRepo.save(data);
+// }
 
 // getpolice profile by username
 // async getPoliceProfilebyusername(user:string): Promise<PoliceEntity[]> {
@@ -134,8 +201,8 @@ async getAdminProfilebyid(id): Promise<AdminEntity[]> {
 //   });
 //   return policeProfiles;
 // }
-async getPoliceInfoByUsername(username: string): Promise<PoliceEntity> {
-  const police = await this.PoliceRepo.findOneBy({ Username: username });
+async getPoliceInfoByUsername(username: string): Promise<PRegistrationEntity> {
+  const police = await this.PoliceRepo.findOneBy({ username: username });
   if (!police) {
     throw new NotFoundException('Police user not found');
   }
@@ -150,8 +217,8 @@ async getVictimById(id: number): Promise<VictimEntity> {
 }
 
 //delete police account using username and also delete many to many relation table also
-async deletePoliceAccount(username: string): Promise<PoliceEntity> {
-  const police = await this.PoliceRepo.findOneBy({ Username: username });
+async deletePoliceAccount(username: string): Promise<PRegistrationEntity> {
+  const police = await this.PoliceRepo.findOneBy({ username: username });
   if (!police) {
     throw new NotFoundException('Police user not found');
   }
@@ -170,12 +237,12 @@ async deletevictimbyid(id: number): Promise<VictimEntity> {
 }
 
 //update police account using username 
-async updatePoliceAccount(username: string, data: PRegistrationDTO): Promise<PoliceEntity> {
-  const police = await this.PoliceRepo.findOneBy({ Username: username });
+async updatePoliceAccount(username: string, data: PRegistrationDTO): Promise<PRegistrationEntity> {
+  const police = await this.PoliceRepo.findOneBy({ username: username });
   if (!police) {
     throw new NotFoundException('Police user not found');
   }
-  const updateResult = await this.PoliceRepo.update(police.Username, data);
+  const updateResult = await this.PoliceRepo.update(police.username, data);
   if (updateResult.affected > 0) {
     'Police user updated successfully' ;
   } else {
@@ -228,13 +295,13 @@ async changeVictimPassword(id: number, newPassword: string): Promise<VictimEntit
   victim.Confirm_Vicpassword = newPassword;
   return this.VictimRepo.save(victim);
 }
-async changePolicePassword(username:string, newPassword: string): Promise<PoliceEntity> {
-  const police = await this.PoliceRepo.findOneBy({Username:username});
+async changePolicePassword(username:string, newPassword: string): Promise<PRegistrationEntity> {
+  const police = await this.PoliceRepo.findOneBy({username:username});
   if (!police) {
     throw new NotFoundException('Police not found');
   }
 
-  police.Password = newPassword;
+  police.password = newPassword;
   return this.PoliceRepo.save(police);
 }
 //change admin password using id
@@ -271,11 +338,9 @@ async changeAdminPassword(AdminId: number, newPassword: string): Promise<AdminEn
       throw new Error('Failed to send email');
     }
   }
-
-  
-  async sendEmailToPoliceByUser(userName: string, newPassword: string): Promise<PoliceEntity> {
+  async sendEmailToPoliceByUser(userName: string, newPassword: string): Promise<PRegistrationEntity> {
     try {
-      const police = await this.PoliceRepo.findOneBy({ Username: userName });
+      const police = await this.PoliceRepo.findOneBy({ username: userName });
 
       if (!police) {
         throw new NotFoundException('Police not found');

@@ -12,11 +12,18 @@ async function bootstrap() {
     //session is uninitialized when it is new but not modified.
     //False is set for implementing login sessions, reducing server storage usage
      cookie:{
+      secure:false,
+      httpOnly:false,
       maxAge:60000
      }
-     }),
+     }
+     ),
     );
-    app.enableCors();
+    app.enableCors({
+      origin:true,
+      methods:'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      credentials:true ///if its false request rejected
+    });
   await app.listen(3000);//can change the port to start the server 
 }
 bootstrap();//called and start from main function
