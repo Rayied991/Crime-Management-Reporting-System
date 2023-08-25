@@ -3,7 +3,7 @@ import { AdminService } from "./Admin.service";
 import { AdminDTO } from "./Admin.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { MulterError, diskStorage } from "multer";
-import { AdminEntity } from "./Admin.entity";
+import { AdminEntity, OTPEntity } from "./Admin.entity";
 import * as bcrypt from 'bcrypt';
 import { SessionGuard } from "./session.guard";
 import { ManagerDto } from "src/Manager/manager.dto";
@@ -28,7 +28,7 @@ export class AdminController{
 //1. pass:Abc123
 //2.pass:Abcd12345
 @Post("/addadmin")
-@UsePipes(new ValidationPipe())
+// @UsePipes(new ValidationPipe())
 async addadmin(@Body() data: AdminDTO): Promise<string> {
   // const salt = await bcrypt.genSalt();
   // data.password = await bcrypt.hash(data.password, salt);
@@ -49,7 +49,7 @@ async addadmin(@Body() data: AdminDTO): Promise<string> {
     return this.adminservice.sendEmailToPolice(username);
   }
 @Post("/addmanager")
-@UsePipes(new ValidationPipe())
+// @UsePipes(new ValidationPipe())
 async addmanager(@Body() data: ManagerDto): Promise<string> {
   const salt = await bcrypt.genSalt();
   data.M_Password = await bcrypt.hash(data.M_Password, salt);
@@ -342,22 +342,39 @@ logout(@Session() session)
   }
 }
 
+@Post('/send-otp/:adminid')
+  async sendOTP(@Param('adminid') adminid: number): Promise<AdminEntity> {
+    try {
+      const admin = await this.adminservice.sendOTP(adminid);
+      return admin;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
 
+  @Post('/verify-otp/:adminid')
+  async verifyOTP(
+    @Param('adminid') adminid: number,
+    @Body('otp') otp: string,
+  ): Promise<string> {
+    try {
+      const result = await this.adminservice.verifyOTP(adminid, otp);
+      return result;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+  @Put('/update-password/:adminid')
+  async updatePassword(
+    @Param('adminid') adminid: number,
+    @Body('newPassword') newPassword: string,
+  ): Promise<AdminEntity> {
+    try {
+      const admin = await this.adminservice.updatePassword(adminid, newPassword);
+      return admin;
+    } catch (error) {
+      throw new NotFoundException(error.message);
+    }
+  }
 }
-
-
-    

@@ -3,7 +3,7 @@
 import { ManagerEntity } from "src/Manager/manager.entity";
 import { PRegistrationEntity } from "src/Police/police.entity";
 import { VictimEntity } from "src/Victim/victim.entity";
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 
 @Entity("Admin")
@@ -24,9 +24,10 @@ export class AdminEntity{
 
     @Column()
     password:string;
+
+   
  
-    @OneToOne(() => Adminprofile, adminProfile => adminProfile.admin)
-  adminProfile: "Adminprofile";
+   
 
     @ManyToMany(() => PRegistrationEntity, police => police.admins)
     @JoinTable({name:"admin_police_relation"})
@@ -48,26 +49,17 @@ export class AdminEntity{
     
     
 }
+@Entity("OTP")
+export class OTPEntity{
+  @PrimaryColumn()
+  generatedotp:string;
 
-@Entity("Adminprofile")
-export class Adminprofile{
-    @PrimaryGeneratedColumn()
-    profileId:number;
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 
-    @Column()
-    Location:string;
-
-    
-
-    @OneToOne(() => AdminEntity, admin => admin.adminProfile)
-    @JoinColumn({name:"AdminId"})
-    admin: "AdminEntity";
-
-   
-
-
-
+ 
 }
+
 
 
 
