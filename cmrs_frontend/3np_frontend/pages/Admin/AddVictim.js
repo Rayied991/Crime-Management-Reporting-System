@@ -3,229 +3,16 @@ import axios from 'axios';
 import { useState } from "react";
 import dynamic from 'next/dynamic';
 import { useForm } from "react-hook-form";
+import Footer from "../Layout/footer";
 const Layout = dynamic(() => import('../Layout/layout'), {
   ssr: false,
 })
 const Title = dynamic(() => import('../Layout/title'), {
   ssr: false,
 })
-// export default function AddVictim() {
-//     const router = useRouter();
-//     const [adminid, setAdminId] = useState();
-//     const [Victim_FName, setVictim_FName] = useState("");
-//     const [Victim_LName, setVictim_LName] = useState("");
-//     const [VicEmail, setVicEmail] = useState("");
-//     const [Vicpassword, setVicpassword] = useState("");
-//     const [Confirm_Vicpassword, setConfirm_Vicpassword] = useState("");
-//     const [NID_No, setNID_No] = useState("");
-//     const [Phone, setPhone] = useState("");
-//     const [Insertfile_NID, setInsertfile_NID] = useState("");
 
-//     // const admin=router.query.id;
-//     console.log(adminid);
-   
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         if (!adminid||!Victim_FName ||!Victim_LName || !VicEmail||!Vicpassword || !Confirm_Vicpassword||!NID_No||!Phone||!Insertfile_NID ) {
-//           console.error("All fields are required.");
-//           return;
-//         }
-      
-//         try {
-//           console.log("Posting Data");
-//           const response = await axios.post(
-//             `${process.env.NEXT_PUBLIC_API_ENDPOINT}/admin/addVictim/${router.query.adminid}`,
-//             // process.env.NEXT_PUBLIC_API_ENDPOINT+"/admin/addVictim/",
-//             {
-//               Victim_FName: Victim_FName,
-//               Victim_LName: Victim_LName,
-//               VicEmail: VicEmail,
-//               Vicpassword: Vicpassword,
-//               Confirm_Vicpassword:Confirm_Vicpassword,
-//               NID_No:NID_No,
-//               Phone:Phone,
-//               Insertfile_NID:Insertfile_NID
-             
-//             },
-//             {
-//               headers: {
-//                 "Content-Type": "application/x-www-form-urlencoded"
-//               },
-//               withCredentials: true
-//             }
-//           );
-      
-//           // console.warn(response);
-      
-//           if (response.data) {
-           
-//             window.location.reload();
-//           } else {
-//             router.push({
-//               pathname: "error",
-//             });
-//           }
-//         } catch (error) {
-//           console.error("Error Adding Victim", error);
-//         }
-//       };
-    
-      
-      
-    
-//         return (
-//     <>
-//     < Title page= "Add Victim" />
-    
-//     <Layout />
-//     <div>
-//             <h1>Add Victim Page</h1>
-        
-//     <form onSubmit={handleSubmit} >
-     
-//     <div>
-//           <label htmlFor="adminid">Admin ID: </label>
-//           <input
-//             type="text"
-//             id="adminid"
-//             value={adminid}
-//             onChange={(e) => setAdminId(e.target.value)}
-//           />
-//         </div>
-//     <div>
-//             <label htmlFor="Victim_FName">Victim_FName :</label>
-//             <input type="text" 
-//             id="Victim_FName" 
-//             value={Victim_FName}
-//            onChange={(e) => setVictim_FName(e.target.value)}
-           
-//             />
-//               {/* {errors.M_Name && <p >FName is required</p>} */}
-//             </div>
-//     <div>
-//             <label htmlFor="Victim_LName">Victim_LName :</label>
-//             <input type="text" 
-//             id="Victim_LName" 
-//             value={Victim_LName}
-//            onChange={(e) => setVictim_LName(e.target.value)}
-           
-//             />
-//               {/* {errors.M_Name && <p >FName is required</p>} */}
-//             </div>
-    
-    
-//             <div>
-//             <label htmlFor="VicEmail">VicEmail :
-//             </label>
-//             <input type="email"  
-//             id="VicEmail" 
-//             value={VicEmail}
-//             onChange={(e) => setVicEmail(e.target.value)}
-//             // {...register('M_Email', { required: true, pattern: /\S+@\S+\.\S+/ })}
-//             />
-//              {/* {errors.email && (
-//                         <p>
-//                           {errors.M_Email.type === 'required'
-//                             ? 'Email is required'
-//                             : 'Invalid email address'}
-//                         </p>
-//                                           )} */}
-//             </div>
-    
-//             <div>
-//             <label htmlFor="Vicpassword">Vicpassword :</label>
-//             <input type="password" 
-//             id="Vicpassword"
-//             value={Vicpassword}
-//             onChange={(e) => setVicpassword(e.target.value)}
-           
-//             />
-//               {/* {errors.M_Password && <p >M_Password is required</p>} */}
-//             </div>
-//             <div>
-//             <label htmlFor="Confirm_Vicpassword">Confirm_Vicpassword :</label>
-//             <input type="password" 
-//             id="Confirm_Vicpassword"
-//             value={Confirm_Vicpassword}
-//             onChange={(e) => setConfirm_Vicpassword(e.target.value)}
-           
-//             />
-//               {/* {errors.M_Password && <p >M_Password is required</p>} */}
-//             </div>
-//             <div>
-//             <label htmlFor="NID_No">NID_No :</label>
-//             <input type="number" 
-//             id="NID_No"
-//             value={NID_No}
-//             onChange={(e) => setNID_No(e.target.value)}
-           
-//             />
-//               {/* {errors.M_Password && <p >M_Password is required</p>} */}
-//             </div>
-//             <div>
-//             <label htmlFor="Phone">Phone :</label>
-//             <input type="number" 
-//             id="Phone"
-//             value={Phone}
-//             onChange={(e) => setPhone(e.target.value)}
-           
-//             />
-//               {/* {errors.M_Password && <p >M_Password is required</p>} */}
-//             </div>
-//             <div>
-//             <label htmlFor="Insertfile_NID">Insertfile_NID :</label>
-//             <input type="text" 
-//             id="Insertfile_NID"
-//             value={Insertfile_NID}
-//             onChange={(e) => setInsertfile_NID(e.target.value)}
-           
-//             />
-//               {/* {errors.M_Password && <p >M_Password is required</p>} */}
-//             </div>
-            
-    
-           
-           
-    
-          
-            
-//             <div>
-//             <input type="submit" 
-//             value="Register" 
-//             />
-//             </div>
-    
-//             <div>
-//             {/* <label for="number">admin :</label>
-//             <input type="text" 
-//             id="Eventdate"  
-//             value={Eventdate}
-//             onChange={(e) => setEventdate(e.target.value)}
-//             // {...register('Eventdate', { required: true })}
-//             />
-//               {errors.Eventdate && <p >Eventdate is required</p>} */}
-//             </div>
-           
-//            {/* Hidden vicitm id passed as foreign key */}
-//             {/* <input type="number" id="admin" value={admin} */}
-    
-//             {/* /> */}
-             
-          
-            
-//           </form>
-//           </div>
-    
-//             <br></br>
-//             <button type="button" onClick={() => router.back()}>
-//                   Back
-//                 </button>
-         
-//     </>
-//         );
-//     }
 
-export default function AddPolice() {
+export default function AddVictim() {
   const router = useRouter();
   const [adminid,setAdminId]=useState();
   const {
@@ -287,67 +74,95 @@ export default function AddPolice() {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-        <Layout page="Add Victim">
-          <h2>Add Victim Page</h2>
+      <form onSubmit={handleSubmit(onSubmit)} class="max-w-lg mx-auto" encType="multipart/form-data">
+        <Title page="Add Victim"/>
+          <Layout/>
+          <h1 className="text-center text-2xl font-bold mb-4">Add Victim Page</h1>
           {success && <p>{success}</p>}
 
          
-          <div>
-            <label htmlFor="Victim_FName">Victim_FName:</label>
-            <input type="text" {...register('Victim_FName', { required: true })} />
-            {errors.fname && <span>This field is required</span>}
+          <div class="form-group">
+            <label htmlFor="Victim_FName" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Victim_FName:</label>
+            <input type="text" 
+             class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter your First Name"
+           {...register('Victim_FName', { required: true })} />
+             {errors.Victim_FName && <p  class="mt-2 text-sm text-red-600 dark:text-red-500">FName is required</p>}
           </div>
           <br />
 
-          <div>
-            <label htmlFor="Victim_LName"> Victim_LName:</label>
-            <input type="text" {...register('Victim_LName', { required: true })} />
-            {errors.lname && <span>This field is required</span>}
+          <div class="form-group">
+            <label htmlFor="Victim_LName" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500"> Victim_LName:</label>
+            <input type="text" class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter your Last Name"
+             {...register('Victim_LName', { required: true })} />
+             {errors.Victim_LName && <p  class="mt-2 text-sm text-red-600 dark:text-red-500">LName is required</p>}
           </div>
           <br />
-          <div>
-            <label htmlFor="VicEmail">VicEmail:</label>
-            <input type="email" {...register('VicEmail', { required: true })} />
-            {errors.email && <span>This field is required</span>}
-          </div>
-          <br />
-
-          <div>
-            <label htmlFor="Phone">Phone:</label>
-            <input type="number" {...register('Phone', { required: true })} />
-            {errors.location && <span>This field is required</span>}
-          </div>
-          <br />
-          <div>
-            <label htmlFor="NID_No">NID_No:</label>
-            <input type="number" {...register('NID_No', { required: true })} />
-            {errors.location && <span>This field is required</span>}
+          <div class="form-group">
+            <label htmlFor="VicEmail" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">VicEmail:</label>
+            <input type="email"  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter your Email"
+            {...register('VicEmail', { required: true, pattern: /\S+@\S+\.\S+/ })}/> 
+            {errors.VicEmail && (
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                      {errors.VicEmail.type === 'required'
+                        ? 'Email is required'
+                        : 'Invalid email address'}
+                    </p>
+                                      )}
           </div>
           <br />
 
-          <div>
-            <label htmlFor="Vicpassword">Vicpassword:</label>
-            <input type="password" {...register('Vicpassword', { required: true })} />
-            {errors.password && <span>This field is required</span>}
+          <div class="form-group">
+            <label htmlFor="Phone" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Phone:</label>
+            <input type="number"  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter your Phone No"
+        {...register('Phone', { required: true })} />
+              {errors.Phone && <p  class="mt-2 text-sm text-red-600 dark:text-red-500">Phone Number is required</p>}
           </div>
           <br />
-          <div>
-            <label htmlFor="Confirm_Vicpassword">Confirm_Vicpassword:</label>
-            <input type="password" {...register('Confirm_Vicpassword', { required: true })} />
-            {errors.password && <span>This field is required</span>}
+          <div class="form-group">
+            <label htmlFor="NID_No" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">NID_No:</label>
+            <input type="number"  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter your NID No"
+            {...register('NID_No', { required: true })} />
+            {errors.NID_No && <p  class="mt-2 text-sm text-red-600 dark:text-red-500">NID is required</p>}
           </div>
           <br />
 
-          <div>
-                    <label htmlFor="image">image</label>
+          <div class="form-group">
+            <label htmlFor="Vicpassword" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Vicpassword:</label>
+            <input type="password" class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter your Password"
+           {...register('Vicpassword', { required: true })} />
+             {errors.Vicpassword && (
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                      {errors.Vicpassword.type === 'required'
+                        ? 'Password is required'
+                        : 'Invalid password pattern'}
+                    </p>
+                  )}
+          </div>
+          <br />
+          <div class="form-group">
+            <label htmlFor="Confirm_Vicpassword" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Confirm_Vicpassword:</label>
+            <input type="password"  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter Password"
+            {...register('Confirm_Vicpassword', { required: true })} />
+            {errors.Confirm_Vicpassword && (
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+                      {errors.Confirm_Vicpassword.type === 'required'
+                        ? 'Password is required'
+                        : 'Invalid password pattern'}
+                    </p>
+                  )}
+          </div>
+          <br />
+
+          <div class="form-group">
+                    <label htmlFor="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"></label>
                     <input
                         type="file"
-                        id="image"
+                        id="image" 
+                        class=" text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                         {...register('image', { required: true, validate: validateFile })}
                     />
                     {errors.image && 
-                    <p>
+                    <p class="mt-2 text-sm text-red-600 dark:text-red-500">
                     {errors.image.type === 'required'
                         ? 'file is required'
                         : 'invalid file'}
@@ -355,26 +170,35 @@ export default function AddPolice() {
     }
                 </div>
        <br></br>
-       <div>
-           <label htmlFor="adminid">Admin ID: </label>
+       <div class="form-group">
+           <label htmlFor="adminid" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Admin ID: </label>
            <input
             type="number"
-            id="adminid"
+            id="adminid" class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" placeholder="Enter your Email"
             value={adminid}
+            {...register('adminid', { required: true })}
             onChange={(e) => setAdminId(e.target.value)}
           />
+          {errors.adminid && <p  class="mt-2 text-sm text-red-600 dark:text-red-500">Admin id is required</p>}
         </div>
-
-          <div>
-            <button type="submit">SignUp</button>
+<br/>
+          <div className="text-center">
+            <button type="submit"
+            class="text-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-red-800"
+            data-drawer-target="drawer-navigation"
+            data-drawer-show="drawer-navigation"
+            aria-controls="drawer-navigation" 
+            align="center"
+            >Add Victim</button>
           </div>
-        </Layout>
+      
       </form>
       <br/>
-      <button type="button" onClick={() => router.back()}>
+      <button type="button" class="font-medium text-primary-600 hover:underline dark:text-primary-500 hover:text-blue-500" onClick={() => router.back()}>
               Click here to go back
             </button>
+            <Footer/>
     </>
   );
-}
 
+}

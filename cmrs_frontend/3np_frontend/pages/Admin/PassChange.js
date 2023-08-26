@@ -2,6 +2,8 @@ import dynamic from 'next/dynamic'
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useForm } from 'react-hook-form';
+import Footer from "../Layout/footer";
 
 
 const Layout = dynamic(() => import('../Layout/layout'), {
@@ -13,12 +15,13 @@ const Title = dynamic(() => import('../Layout/title'), {
 
 export default function PASS() {
   const router=useRouter();
-  const [adminId, setAdminId] = useState('');
+  const { register, handleSubmit, formState: { errors }, reset } = useForm("");
+  const [adminId, setAdminId] = useState();
   const [newPassword, setNewPassword] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = async (e) => {
+    // e.preventDefault();
 
     try {
       const response = await axios.put(
@@ -45,7 +48,7 @@ export default function PASS() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-md mx-auto p-4 bg-white rounded shadow-md">
       <Layout page="PASS" />
       <Title page="Change Password" />
       <h1 className="text-2xl font-bold mb-4">Change Password Page</h1>
@@ -57,10 +60,12 @@ export default function PASS() {
           type="number"
           id="adminId"
           value={adminId}
+          {...register("adminId", { required: true })}
           onChange={(e) => setAdminId(e.target.value)}
           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          required
+          
         />
+        {errors.adminId &&  <p class="mt-2 text-sm text-red-600 dark:text-red-500"><span class="font-medium">Oops!</span> This Field is Required!</p>}
       </div>
       <div className="mb-4">
         <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700">
@@ -70,10 +75,18 @@ export default function PASS() {
           type="password"
           id="newPassword"
           value={newPassword}
+          {...register("newPassword", { required: true, minLength: 6 })}
           onChange={(e) => setNewPassword(e.target.value)}
           className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-          required
+          
         />
+         {errors.newPassword && (
+              <span class="mt-2 text-sm text-red-600 dark:text-red-500">
+                {errors.newPassword.type === "required"
+                  ? "Password is required"
+                  : "Password should have at least 6 characters"}
+              </span>
+            )} 
       </div>
       <div>
         <button
@@ -88,6 +101,7 @@ export default function PASS() {
     <p>  Go Back <a href="/Admin/Signin" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign In</a>
 
 </p>
+<Footer/>
     </form>
   );
 }

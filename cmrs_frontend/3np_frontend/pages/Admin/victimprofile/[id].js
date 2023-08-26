@@ -2,7 +2,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useAuth } from "@/pages/utils/authcontext";
+import Footer from "@/pages/Layout/footer";
+
 
 const Layout = dynamic(() => import('../../Layout/layout'), {
     ssr: false,
@@ -17,6 +18,7 @@ export default function Victimprofile()
 {
     const router = useRouter();
 
+    
     const [vicid,setvicid]=useState();
     const [Victim_FName, setVictim_FName] = useState("");
     const [Victim_LName, setVictim_LName] = useState("");
@@ -94,7 +96,7 @@ export default function Victimprofile()
         }
       };
 //PUT method
-const handleSubmit = async (e)=>{
+const onSubmit = async (e)=>{
   e.preventDefault();
   //update 
   const formData = new FormData();
@@ -202,36 +204,41 @@ return(
 <Title page= "Victim Update" />
 <Layout />
 
-<div>
-<h1>Admin Update</h1>
-<form onSubmit={handleSubmit} >
 
-<div>
-<label htmlFor="vicid">vicid :</label>
+<h1 className="text-center text-2xl font-bold mb-4">Victim Update</h1>
+<form onSubmit={onSubmit} class="max-w-lg mx-auto" >
+
+<div class="form-group">
+<label htmlFor="vicid" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">vicid :</label>
  <input 
  type="number"
  id="vicid"
  placeholder={CollectedpostData?.vicid}
+ class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
  value={vicid}
+//  {...register('vicid', { required: true })} 
  onChange={set_id}
  />
+ {/* {errors.vicid && <p  class="mt-2 text-sm text-red-600 dark:text-red-500">Victim Id  is required</p>} */}
 </div>
 
-<div>
-        <label htmlFor="Victim_FName">Victim_FName :</label>
+<div class="form-group">
+        <label htmlFor="Victim_FName" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Victim_FName :</label>
         <input type="text" 
         placeholder={CollectedpostData?.Victim_FName}
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
         id="Victim_FName" 
         value={Victim_FName}
+        // {...register('Victim_FName', { required: true })} 
        onChange={set_Victim_FName}
-        //  {...register('name', { required: true })}
         />
-          {/* {errors.name && <p >FName is required</p>} */}
+         {/* {errors.Victim_FName && <p  class="mt-2 text-sm text-red-600 dark:text-red-500">FName is required</p>} */}
         </div>
-<div>
-        <label htmlFor="Victim_LName">Victim_LName :</label>
+<div class="form-group">
+        <label htmlFor="Victim_LName" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Victim_LName :</label>
         <input type="text" 
         placeholder={CollectedpostData?.Victim_FName}
+         class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
         id="Victim_LName" 
         value={Victim_LName}
        onChange={set_Victim_LName}
@@ -241,11 +248,11 @@ return(
         </div>
 
 
- <div>
-        <label htmlFor="VicEmail"> VicEmail :
+ <div class="form-group">
+        <label htmlFor="VicEmail" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500"> VicEmail :
         </label>
         <input type="email" 
-        placeholder={CollectedpostData?.VicEmail} 
+        placeholder={CollectedpostData?.VicEmail}  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
         id="VicEmail" 
         value={VicEmail}
         onChange={set_email}
@@ -259,10 +266,10 @@ return(
                     </p>
                                       )} */}
         </div>
-        <div>
-        <label htmlFor="Vicpassword">Vicpassword :</label>
+        <div class="form-group">
+        <label htmlFor="Vicpassword" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Vicpassword :</label>
         <input type="password" 
-        placeholder={CollectedpostData?.Vicpassword} 
+        placeholder={CollectedpostData?.Vicpassword}  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
         id="Vicpassword"  
         value={Vicpassword}
         onChange={set_vicpassword}
@@ -271,9 +278,9 @@ return(
           {/* {errors.password && <p >password is required</p>} */}
         </div>
         <div>
-        <label htmlFor="Confirm_Vicpassword">Confirm_Vicpassword :</label>
+        <label htmlFor="Confirm_Vicpassword" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Confirm_Vicpassword :</label>
         <input type="password" 
-        placeholder={CollectedpostData?.Confirm_Vicpassword} 
+        placeholder={CollectedpostData?.Confirm_Vicpassword} class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         id="Confirm_Vicpassword"  
         value={Confirm_Vicpassword}
         onChange={set_vicConfirmpassword}
@@ -281,10 +288,10 @@ return(
         />
           {/* {errors.password && <p >password is required</p>} */}
         </div>
-        <div>
-        <label htmlFor="NID_No">NID_No :</label>
+        <div class="form-group">
+        <label htmlFor="NID_No" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">NID_No :</label>
         <input type="number" 
-         placeholder={CollectedpostData?.NID_No} 
+         placeholder={CollectedpostData?.NID_No}  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
         id="NID_No"
         value={NID_No}
         onChange={set_nid}
@@ -293,10 +300,10 @@ return(
           {/* {errors.phone && <p >phone is required</p>} */}
         </div>
 
-        <div>
-        <label htmlFor="Phone">Phone :</label>
+        <div class="form-group">
+        <label htmlFor="Phone" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Phone :</label>
         <input type="number" 
-         placeholder={CollectedpostData?.Phone} 
+         placeholder={CollectedpostData?.Phone}  class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400"
         id="Phone"
         value={Phone}
         onChange={set_phone}
@@ -311,37 +318,31 @@ return(
        
 
 
-       
+       <br/>
         <div className="text-center">
                   <input
                     
                     type="submit"
                     disabled={!isFormComplete}
                     value="Update "
+                    class="text-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-red-800"
+         data-drawer-target="drawer-navigation"
+         data-drawer-show="drawer-navigation"
+         aria-controls="drawer-navigation" 
+         align="center"
                   />
                 </div>
-            {/* You can open the modal using AdminId.showModal() method */}
-      {/* <button className="btn" >open modal</button> */}
-      {/* <dialog AdminId="confirm_Delete" className="modal">
-        <form method="dialog" className="modal-box"> */}
-          {/* <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button> */}
-          {/* <h3 className="font-bold text-lg">Confirm Delete?</h3>
-          <p className="py-4">Are you sure that you want to delete it?</p> */}
-          <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
-            {/* <button onClick={ handleDelete } className="btn">
-              Delete
-            </button> */}
-          </div>
+                <a href="/Admin/Adminprofile" class="font-medium text-primary-600 hover:underline dark:text-primary-500 hover:text-blue-500">Back</a>
+            
+         
 
 
 
     </form>
+    <Footer/>
 
 
-</div>
+
 
 
 

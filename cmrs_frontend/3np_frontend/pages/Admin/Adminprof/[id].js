@@ -179,26 +179,28 @@ return(
 <Layout />
 
 <div>
-<h1>Admin Update</h1>
-<form onSubmit={handleSubmit} >
+<h1 className="text-center text-2xl font-bold mb-4">Admin Update</h1>
+<form onSubmit={handleSubmit} class="max-w-lg mx-auto" >
 
-<div>
-<label htmlFor="AdminId">Post AdminId :</label>
+<div  class="form-group">
+<label htmlFor="AdminId" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Post AdminId :</label>
  <input 
  type="number"
  id="AdminId"
  placeholder={CollectedpostData?.AdminId}
  value={AdminId}
+ class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
  onChange={set_AdminId}
  />
 </div>
 
-<div>
-        <label htmlFor="name">Name :</label>
+<div  class="form-group">
+        <label htmlFor="name" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Name :</label>
         <input type="text" 
         placeholder={CollectedpostData?.name}
         id="name" 
         value={name}
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
        onChange={set_name}
         //  {...register('name', { required: true })}
         />
@@ -206,13 +208,14 @@ return(
         </div>
 
 
- <div>
-        <label htmlFor="email"> Email :
+ <div  class="form-group">
+        <label htmlFor="email" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500"> Email :
         </label>
         <input type="email" 
         placeholder={CollectedpostData?.email} 
         id="email" 
         value={email}
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         onChange={set_email}
         // {...register('email', { required: true, pattern: /\S+@\S+\.\S+/ })}
         />
@@ -223,25 +226,27 @@ return(
                         : 'InvalAdminId email address'}
                     </p>
                                       )} */}
-        </div>
+        </div  >
 
-        <div>
-        <label htmlFor="phone">Phone :</label>
+        <div class="form-group">
+        <label htmlFor="phone" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">Phone :</label>
         <input type="number" 
          placeholder={CollectedpostData?.phone} 
         id="phone"
         value={phone}
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         onChange={set_phone}
         // {...register('phone', { required: true })}
         />
           {/* {errors.phone && <p >phone is required</p>} */}
-        </div>
-        <div>
-        <label htmlFor="password">password :</label>
+        </div  >
+        <div class="form-group">
+        <label htmlFor="password" class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">password :</label>
         <input type="password" 
         placeholder={CollectedpostData?.password} 
         id="password"  
         value={password}
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         onChange={set_password}
         // {...register('password', { required: true })}
         />
@@ -251,38 +256,29 @@ return(
        
 
 
-       
-        <div className="text-center">
+       <br/>
+        <div  className="text-center">
                   <input
                     
                     type="submit"
                     disabled={!isFormComplete}
                     value="Update "
-                    className="px-6 py-2 bg-blue-500 text-white rounded cursor-pointer disabled:opacity-50 hover:bg-blue-600"
+                    class="text-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-red-800"
+                    data-drawer-target="drawer-navigation"
+                    data-drawer-show="drawer-navigation"
+                    aria-controls="drawer-navigation" 
+                    align="center"
                   />
                 </div>
-            {/* You can open the modal using AdminId.showModal() method */}
-      {/* <button className="btn" >open modal</button> */}
-      {/* <dialog AdminId="confirm_Delete" className="modal">
-        <form method="dialog" className="modal-box"> */}
-          {/* <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button> */}
-          {/* <h3 className="font-bold text-lg">Confirm Delete?</h3>
-          <p className="py-4">Are you sure that you want to delete it?</p> */}
-          <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
-            {/* <button onClick={ handleDelete } className="btn">
-              Delete
-            </button> */}
-          </div>
+           
 
-
+                <a href="/Admin/Adminprofile" class="font-medium text-primary-600 hover:underline dark:text-primary-500 hover:text-blue-500">Back</a>
 
     </form>
 
 
 </div>
+<Footer/>
 
 
 

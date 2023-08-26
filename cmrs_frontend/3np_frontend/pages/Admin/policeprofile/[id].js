@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/pages/utils/authcontext";
+import Footer from "@/pages/Layout/footer";
 
 const Layout = dynamic(() => import('../../Layout/layout'), {
     ssr: false,
@@ -95,7 +96,7 @@ export default function Victimprofile()
       };
 //PUT method
 const handleSubmit = async (e)=>{
-  e.preventDefault();
+  // e.preventDefault();
   //update 
   const formData = new FormData();
   formData.append("fname", fname);
@@ -201,38 +202,40 @@ return(
 <Title page= "Police Update" />
 <Layout />
 
-<div>
-<h1>Police Update</h1>
-<form onSubmit={handleSubmit} >
 
-<div>
-<label htmlFor="username">username :</label>
+<h1 className="text-center text-2xl font-bold mb-4">Police Update</h1>
+<form onSubmit={handleSubmit} class="max-w-lg mx-auto" encType="multipart/form-data">
+
+<div class="form-group">
+<label htmlFor="username"  class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">username :</label>
  <input 
  type="text"
  id="username"
  placeholder={CollectedpostData?.username}
+ class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
  value={username}
  onChange={set_username}
  />
 </div>
 
-<div>
-        <label htmlFor="fname">fname :</label>
+<div class="form-group">
+        <label htmlFor="fname"  class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">fname :</label>
         <input type="text" 
         placeholder={CollectedpostData?.fname}
         id="fname" 
         value={fname}
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
        onChange={set_fname}
         //  {...register('name', { required: true })}
         />
           {/* {errors.name && <p >FName is required</p>} */}
         </div>
-<div>
-        <label htmlFor="lname">lname :</label>
+<div class="form-group">
+        <label htmlFor="lname"  class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">lname :</label>
         <input type="text" 
         placeholder={CollectedpostData?.lname}
         id="lname" 
-        value={lname}
+        value={lname}         class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
        onChange={set_lname}
         //  {...register('name', { required: true })}
         />
@@ -240,13 +243,13 @@ return(
         </div>
 
 
- <div>
-        <label htmlFor="email"> email :
+ <div class="form-group">
+        <label htmlFor="email"  class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500"> email :
         </label>
         <input type="email" 
         placeholder={CollectedpostData?.email} 
         id="email" 
-        value={email}
+        value={email}         class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         onChange={set_email}
         // {...register('email', { required: true, pattern: /\S+@\S+\.\S+/ })}
         />
@@ -258,36 +261,38 @@ return(
                     </p>
                                       )} */}
         </div>
-        <div>
-        <label htmlFor="password">password :</label>
+        <div class="form-group">
+        <label htmlFor="password"  class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">password :</label>
         <input type="password" 
         placeholder={CollectedpostData?.password} 
         id="password"  
-        value={password}
+        value={password}         class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         onChange={set_password}
         // {...register('password', { required: true })}
         />
           {/* {errors.password && <p >password is required</p>} */}
         </div>
        
-        <div>
-        <label htmlFor="location">location :</label>
+        <div class="form-group">
+        <label htmlFor="location"  class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">location :</label>
         <input type="text" 
          placeholder={CollectedpostData?.location} 
         id="location"
-        value={location}
+        value={location} 
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         onChange={set_location}
         // {...register('phone', { required: true })}
         />
           {/* {errors.phone && <p >phone is required</p>} */}
         </div>
 
-        <div>
-        <label htmlFor="phoneNum">phoneNum :</label>
+        <div class="form-group">
+        <label htmlFor="phoneNum"  class="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">phoneNum :</label>
         <input type="text" 
          placeholder={CollectedpostData?.phoneNum} 
         id="phoneNum"
-        value={phoneNum}
+        value={phoneNum}         
+        class="bg-green-50 border border-green-500 text-green-900 placeholder-green-700 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-green-100 dark:border-green-400" 
         onChange={set_phone}
         // {...register('phone', { required: true })}
         />
@@ -301,37 +306,28 @@ return(
 
 
        
+          <br/>
         <div className="text-center">
                   <input
                     
                     type="submit"
                     disabled={!isFormComplete}
                     value="Update "
+                    class="text-center text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 dark:bg-red-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-red-800"
+         data-drawer-target="drawer-navigation"
+         data-drawer-show="drawer-navigation"
+         aria-controls="drawer-navigation" 
+         align="center"
                   />
                 </div>
-            {/* You can open the modal using AdminId.showModal() method */}
-      {/* <button className="btn" >open modal</button> */}
-      {/* <dialog AdminId="confirm_Delete" className="modal">
-        <form method="dialog" className="modal-box"> */}
-          {/* <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
-            ✕
-          </button> */}
-          {/* <h3 className="font-bold text-lg">Confirm Delete?</h3>
-          <p className="py-4">Are you sure that you want to delete it?</p> */}
-          <div className="modal-action">
-            {/* if there is a button in form, it will close the modal */}
-            {/* <button onClick={ handleDelete } className="btn">
-              Delete
-            </button> */}
-          </div>
+          
 
 
 
     </form>
+    <a href="/Admin/Adminprofile" class="font-medium text-primary-600 hover:underline dark:text-primary-500 hover:text-blue-500">Back</a>
 
-
-</div>
-
+<Footer/>
 
 
 

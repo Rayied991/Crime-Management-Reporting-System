@@ -410,6 +410,26 @@ async changeAdminPassword(AdminId: number, newPassword: string): Promise<AdminEn
   
     return 'OTP valid';
   }
+  // async verifyOTP( otp: string,adminid:number): Promise<string> {
+  //   const otpEntity = await this.OTPRepo.findOne({
+  //     where: {
+  //       generatedotp: otp,
+  //       createdAt: LessThan(new Date(new Date().getTime() - 1 * 60 * 1000))// Created more than 1 minute ago
+  //     },
+  //   });
+  
+  //   if (!otpEntity) {
+  //     throw new NotFoundException('OTP not found or expired');
+  //   }
+  
+  //   // Implement OTP verification logic here
+  //   // For example, compare otpEntity.generatedotp with user input otp
+  
+  //   // Delete the OTP
+  //   await this.OTPRepo.remove(otpEntity);
+  
+  //   return 'OTP valid';
+  // }
   
 
   async updatePassword(adminid: number, newPassword: string): Promise<AdminEntity> {

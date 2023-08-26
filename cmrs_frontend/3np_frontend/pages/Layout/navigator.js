@@ -49,7 +49,7 @@ export default function Navigator() {
           <Link href="/" className="fb-button fb-button-primary">Home</Link>
           <Link href="/Admin/Registration" className="fb-button fb-button-primary">Registration</Link>
           <Link href="/Admin/Signin" className="fb-button fb-button-primary">Signin</Link>
-          <Link href="/Admin/PassChange" className="fb-button fb-button-primary">Change Password</Link>
+          <Link href="/Admin/OTPsend" className="fb-button fb-button-primary">Change Password</Link>
           <Link href="/Admin/AddManager" className="fb-button fb-button-primary">Add Manager</Link>
           <Link href="/Admin/Signout" className="fb-button fb-button-primary">Log Out</Link>
           <Link href="/about" className="fb-button fb-button-primary">About</Link>

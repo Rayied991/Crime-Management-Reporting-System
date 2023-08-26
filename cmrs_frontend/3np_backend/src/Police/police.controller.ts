@@ -87,7 +87,7 @@ export class PoliceController
     }
     
     @Get('/policeviewprofile/')
-    // @UseGuards(SessionGuard)
+    @UseGuards(SessionGuard)
     ViewProfilePolice(@Session() session):  any {
      return  this.policeService.ViewProfilePolice(session.username);
       

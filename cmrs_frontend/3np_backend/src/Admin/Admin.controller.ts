@@ -28,7 +28,7 @@ export class AdminController{
 //1. pass:Abc123
 //2.pass:Abcd12345
 @Post("/addadmin")
-// @UsePipes(new ValidationPipe())
+@UsePipes(new ValidationPipe())
 async addadmin(@Body() data: AdminDTO): Promise<string> {
   // const salt = await bcrypt.genSalt();
   // data.password = await bcrypt.hash(data.password, salt);
@@ -48,8 +48,10 @@ async addadmin(@Body() data: AdminDTO): Promise<string> {
   async sendemailtopolice(@Param('username') username: string): Promise<PRegistrationEntity> {
     return this.adminservice.sendEmailToPolice(username);
   }
+  
 @Post("/addmanager")
-// @UsePipes(new ValidationPipe())
+@UseGuards(SessionGuard)
+@UsePipes(new ValidationPipe())
 async addmanager(@Body() data: ManagerDto): Promise<string> {
   const salt = await bcrypt.genSalt();
   data.M_Password = await bcrypt.hash(data.M_Password, salt);
@@ -136,6 +138,7 @@ async addmanager(@Body() data: ManagerDto): Promise<string> {
   //     return this.adminservice.AddVictim(victim);
     // }
   @Post('/addVictim/:adminid')
+  @UsePipes(new ValidationPipe())
   @UseInterceptors(FileInterceptor('image',
   {
       fileFilter: (req, file, cb) => {
@@ -326,7 +329,7 @@ async changeAdminPassword(@Param('AdminId', ParseIntPipe) AdminId: number,@Body(
 
    //logout
 
-@Post('/signout')
+@Get('/signout')
 logout(@Session() session)
 {
   
@@ -364,6 +367,18 @@ logout(@Session() session)
       throw new NotFoundException(error.message);
     }
   }
+  // @Post('/verify-otp/:otp')
+  // async verifyOTP(
+  //   @Param('otp') otp: string,
+  //   @Body() adminid: number
+  // ): Promise<string> {
+  //   try {
+  //     const result = await this.adminservice.verifyOTP(otp,adminid);
+  //     return result;
+  //   } catch (error) {
+  //     throw new NotFoundException(error.message);
+  //   }
+  // }
 
   @Put('/update-password/:adminid')
   async updatePassword(

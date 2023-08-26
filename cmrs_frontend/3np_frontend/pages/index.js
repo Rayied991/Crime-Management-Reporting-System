@@ -1,3 +1,4 @@
+
 import dynamic from "next/dynamic";
 const Layout = dynamic(() => import('./Layout/layout'), {
   ssr: false,
@@ -13,6 +14,7 @@ export default function Home() {
   
      </Title>
      <Layout></Layout>
+     
      
 
     </>

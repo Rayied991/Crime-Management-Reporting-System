@@ -1,7 +1,6 @@
 import React from "react"
 import Header from "./header"
 import Footer from "./footer"
-import Navigator from "./navigator"
 import NotFound from "../404"
 import dynamic from 'next/dynamic'
 
@@ -26,7 +25,7 @@ export default function Layout({children},props){//component
     
     {/* <Navigator></Navigator> */}
     {children}
-    <Footer></Footer>
+    {/* <Footer/> */}
     {/* </body> */}
     </>
   )
