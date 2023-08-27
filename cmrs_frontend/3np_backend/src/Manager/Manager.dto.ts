@@ -1,13 +1,21 @@
+import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
+
 export class ManagerDto{
     
     ManagerID:number;
+
+    @IsString()
+    @IsNotEmpty()
     
     M_Name:string;
 
+    @IsNotEmpty()
+    @IsEmail()
    
     M_Email:string;
 
-   
+    @IsNotEmpty()
+  @MinLength(10)
     M_Password:string;
 }
 

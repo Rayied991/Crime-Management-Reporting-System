@@ -22,11 +22,13 @@ export class AdminDTO{
 
     password:string;
 
+   
+  
+
     
     
 }
-export class AdminProfile{
-    profileId:number;
-    Location:string;
+export class OTPDTO{
+  generatedotp:string;
 }
 
