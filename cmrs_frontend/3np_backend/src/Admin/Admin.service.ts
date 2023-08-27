@@ -444,6 +444,36 @@ async changeAdminPassword(AdminId: number, newPassword: string): Promise<AdminEn
 
     return admin;
   }
+  // async updatePassword(adminid: number, newPassword: string): Promise<AdminEntity> {
+  //   const admin = await this.adminRepo.findOne({ where: { AdminId: adminid } });
+  //   if (!admin) {
+  //     throw new NotFoundException('admin not found');
+  //   }
+  
+
+  //   //bcrypt the password
+  //   const hashedPassword = await bcrypt.hash(newPassword, 10); // Hash the new password
+
+  // //  const data= await this.adminRepo.update(adminid, { password: hashedPassword }); // Update the admin with the hashed password
+  //  // Update password (Implement password update logic)
+  //  newPassword=hashedPassword;
+  //   admin.password = newPassword;
+  //   await this.adminRepo.save(admin);
+  //   return admin;
+    
+  // }
+    
+    // admin.password = hashedPassword;
+    // await this.adminRepo.save(admin);
+    // return admin;
+    
+    // const saltRounds = 10; // You can adjust this according to your security needs
+    // const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    // admin.password = hashedPassword;
+    // await this.adminRepo.save(admin);
+
+    // return admin;
+  }
 
   
 
@@ -454,7 +484,7 @@ async changeAdminPassword(AdminId: number, newPassword: string): Promise<AdminEn
 
   
  
-}
+
 
 
 

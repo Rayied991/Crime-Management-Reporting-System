@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/pages/utils/authcontext";
+import Footer from "@/pages/Layout/footer";
 
 
 const Layout = dynamic(() => import('../../Layout/layout'), {

@@ -10,7 +10,7 @@ const Layout = dynamic(() => import('../Layout/layout'), {
 const Title = dynamic(() => import('../Layout/title'), {
   ssr: false,
 })
-export default function AddManager(){
+export default function AddAdmin(){
 
   const router = useRouter();
   const { register, handleSubmit, formState: { errors }, reset } = useForm("");

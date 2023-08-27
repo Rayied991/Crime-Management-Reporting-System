@@ -75,7 +75,7 @@ async addmanager(@Body() data: ManagerDto): Promise<string> {
 //   }
 
 @Post('/addpolice/:adminid')
-// @UsePipes(new ValidationPipe())
+@UsePipes(new ValidationPipe())
 
     @UseInterceptors(FileInterceptor('mypicfile',
 
@@ -380,6 +380,18 @@ logout(@Session() session)
   //   }
   // }
 
+  // @Put('/update-password/:adminid')
+  // async updatePassword(
+  //   @Param('adminid') adminid: number,
+  //   @Body('newPassword') newPassword: AdminDTO,
+  // ): Promise<AdminEntity> {
+  //   try {
+  //     const admin = await this.adminservice.updateAdminById(adminid, newPassword);
+  //     return admin;
+  //   } catch (error) {
+  //     throw new NotFoundException(error.message);
+  //   }
+  // }
   @Put('/update-password/:adminid')
   async updatePassword(
     @Param('adminid') adminid: number,

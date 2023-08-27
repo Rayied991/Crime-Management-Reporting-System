@@ -25,14 +25,14 @@ export default function LoginPage() {
 
 
     const [error, setError] = useState('')
-    // useEffect(() => {
-    //   // Check if a session is established, e.g., by checking a session storage value
-    //   const isLoggedIn = sessionStorage.getItem('AdminId');
-    //   if (isLoggedIn) {
-    //     // If already logged in, redirect to another page
-    //     router.push("/Admin/Adminprofile");
-    //   }
-    // }, []);
+    useEffect(() => {
+      // Check if a session is established, e.g., by checking a session storage value
+      const isLoggedIn = sessionStorage.getItem('AdminId');
+      if (isLoggedIn) {
+        // If already logged in, redirect to another page
+        router.push("/Admin/Adminprofile");
+      }
+    }, []);
  
     
     const onSubmit = async (e) => {
@@ -109,16 +109,7 @@ return (
               </span>
             )}  
                     </div>
-                    <label htmlFor="remember" class="flex items-center ml-3 text-sm">
-    <input
-        id="remember"
-        type="checkbox"
-        name="remember"
-        class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-primary-300 focus:border-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-    />
-    
-    <span class="ml-2 text-gray-500 dark:text-gray-300">Remember me</span>
-</label>
+                 
                     <br />
                     <br />
                    
@@ -129,6 +120,13 @@ return (
 >
   Sign in
 </button>
+<p class="text-sm font-light text-gray-500 dark:text-gray-400">
+            <br />
+            <br />
+            <a href="/Admin/OTPsend" class="font-medium text-primary-600 hover:underline dark:text-primary-500 hover:text-blue-500">
+                Forget Password
+            </a>
+        </p>
 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
             <br />
             <br />

@@ -169,7 +169,7 @@ export default function AddPolice() {
           </div>
         
       </form>
-      {success && <p>{success}</p>}
+      {success && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{success}</p>}
       <br/>
       <button type="button" onClick={() => router.back()}>
               Click here to go back
